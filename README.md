@@ -1,5 +1,5 @@
 # Cashingularity
-Cashingularity is an open-source Bitcoin Cash (BCH) wallet project with built-in AI analytics, currently at a very early stage. The goal is a desktop app for Linux and Windows where users can create their own BCH wallets and get AI-based analysis of BCH data. The AI ​​is planned to run in three modes: locally on the user’s machine, on a remote server over SSH, or through an API.
+***Cashingularity** is an open-source Bitcoin Cash ecosystem combining a non-custodial BCH wallet, WizardConnect integration, CashTokens support, prediction markets, and an online multiplayer arcade. Built for BCH BLAZE 2026, it brings decentralized finance, smart contracts, and interactive experiences into one platform.*
 **Bitcoin Cash wallet, prediction market lab, and racing arcade**
 
 BCH BLAZE 2026 submission by **Taylon McFly**
