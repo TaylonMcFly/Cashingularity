@@ -1,8 +1,8 @@
 # Cashingularity
-
+**BCH BLAZE 2026** 
 **Bitcoin Cash wallet, prediction-market lab, and online racing arcade**
 
-**BCH BLAZE 2026** · Created by **Taylon McFly** · [Source code](https://github.com/TaylonMcFly/Cashingularity) · [Deployment guide](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/DEPLOYMENT.md) · [On-chain evidence](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/ONCHAIN_PROOF.md)
+Created by **Taylon McFly** · [Source code](https://github.com/TaylonMcFly/Cashingularity) · [Deployment guide](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/DEPLOYMENT.md) · [On-chain evidence](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/ONCHAIN_PROOF.md)
 
 Cashingularity is an open-source, non-custodial Bitcoin Cash web application. It brings together BCH wallet tools, experimental prediction markets, and an independent multiplayer arcade in one interface. The project distinguishes **Mainnet wallet functionality**, **Chipnet contract experiments**, and **paper trading** so users can explore the technology without confusing simulations with real-money activity.
 
