@@ -1,10 +1,12 @@
 # Cashingularity
-**BCH BLAZE 2026** 
+
 **Bitcoin Cash wallet, prediction-market lab, and online racing arcade**
 
-Created by **Taylon McFly** · [Source code](https://github.com/TaylonMcFly/Cashingularity) · [Deployment guide](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/DEPLOYMENT.md) · [On-chain evidence](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/ONCHAIN_PROOF.md)
+**BCH BLAZE 2026** · Created by **Taylon McFly**
 
-*Cashingularity is an open-source, non-custodial Bitcoin Cash web application. It brings together BCH wallet tools, experimental prediction markets, and an independent multiplayer arcade in one interface. The project distinguishes **Mainnet wallet functionality**, **Chipnet contract experiments**, and **paper trading** so users can explore the technology without confusing simulations with real-money activity.*
+**[Live Demo](https://cashingularity.existencecode.com/)** · [Source Code](https://github.com/TaylonMcFly/Cashingularity) · [Deployment Guide](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/DEPLOYMENT.md) · [On-chain Evidence](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/ONCHAIN_PROOF.md)
+
+Cashingularity is an open-source, non-custodial Bitcoin Cash web application. It brings together BCH wallet tools, experimental prediction markets, and an independent multiplayer arcade in one interface. The project distinguishes **Mainnet wallet functionality**, **Chipnet contract experiments**, and **paper trading** so users can explore the technology without confusing simulations with real-money activity.
 
 ![Cashingularity wallet dashboard](https://raw.githubusercontent.com/TaylonMcFly/Cashingularity/main/docs/ui-polish/after-wallet.png)
 
@@ -58,7 +60,7 @@ npm run build
 npm start
 ```
 
-Open the local application at **http://localhost:3000/**. The pages for [Markets](http://localhost:3000/market) and [Arcade](http://localhost:3000/arcade) are **local development routes**, not public demo links.
+After installation, open **http://localhost:3000/** to access the local application. For the hosted version, visit the **[Live Demo](https://cashingularity.existencecode.com/)**.
 
 Configuration: [`.env.example`](https://github.com/TaylonMcFly/Cashingularity/blob/main/.env.example) · [Ubuntu / Oracle Cloud / Cloudflare deployment](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/DEPLOYMENT.md)
 
@@ -83,7 +85,7 @@ More evidence: [Single-player Rocket Race](https://github.com/TaylonMcFly/Cashin
 - The wallet checks the transaction being signed against the payment review. Users must still verify addresses, amounts, and fees before approving real transfers.
 - Experimental contracts and sidecars are **not** represented as audited, production-ready financial services.
 - Multiplayer currently operates on one backend instance. A restart removes active rooms but preserves rankings. Anonymous users can create multiple game identities.
-- Public deployment and physical Selene/Paytaca interoperability are separate release checks; do not infer they passed from local smoke tests.
+- The [public deployment](https://cashingularity.existencecode.com/) is linked above; its live availability and physical Selene/Paytaca interoperability require independent verification and are not established by local smoke tests.
 - Never use sample recovery phrases, test vectors, or published example addresses to safeguard real funds.
 
 [Security boundaries](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/SECURITY_BOUNDARIES.md) · [Deployment and operations](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/DEPLOYMENT.md)
