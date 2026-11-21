@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Cashingularity BCH Wallet & UTXO Inspector",
+  "version": "1.0.0",
+  "description": "AI-Assisted Bitcoin Cash Wallet, Rabby-Style Pre-Sign UTXO DAG Inspector & Configurable Parimutuel Prediction Markets (BCH BLAZE 2026)",
+  "icons": {
+    "192": "logo-wallet.png",
+    "512": "logo-wallet.png"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Cashingularity",
+    "default_icon": "logo-wallet.png"
+  },
+  "permissions": [
+    "storage",
+    "clipboardWrite"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  }
+}

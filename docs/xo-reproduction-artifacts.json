@@ -1,0 +1,641 @@
+{
+  "generatedAtIso": "2026-11-16T10:07:01.033Z",
+  "network": "chipnet",
+  "enginePackageVersion": "@xo-cash/engine@0.1.0-next.17612568780",
+  "libauthVersion": "@bitauth/libauth@3.1.0-next.8",
+  "engineConnectedDuringRun": false,
+  "spendableUtxoCount": 1,
+  "walletDerivationNote": "XO Engine uses m/2415'/... derivation paths, while standard BIP44 wallets use m/44'/145'/0'/0/0.",
+  "chipnetReceiveAddress": "bchtest:qqyx49mu0kkn9ftfj6hje6g2wfer34yfnqseeszx8x",
+  "chipnetTokenAwareAddress": "bchtest:zqyx49mu0kkn9ftfj6hje6g2wfer34yfnqhn2wvqc4",
+  "chipnetCovenantAddress": "bchtest:p0aarfxj2rc70a4yrdj5j6mtza2zex25jjfprg27qsf8vzfv58c8khl7sv6my",
+  "lockingBytecodeHex": "76a914086a977c7dad32a56996af2ce90a727238d4899888ac",
+  "onChainProof": {
+    "fundingTxid": "a87122c361114ab59e6547fad6f6921fd948700f51ed80dc365ddeb5a542ec3f",
+    "covenantStakeTxid": "8b3fb7c71e2f7bdeab411acbec82240a1801c71eb4866396370420e98fca69e0",
+    "signedTxHex": "02000000013fec42a5b5de5d36dc80ed510f7048d91f92f6d6fa47659eb54a1161c32271a8000000006441303499c53851f548de604e08b32ff2cb94c2372f3cfb21b8026bb0e8fa7a10d3c5483da8e7f095b4fccd5a6f29cbdccf30cbfa4731dfa6ace35a8ea2b4010518412102bbe7dbcdf8b2261530a867df7180b17a90b482f74f2736b8a30d3f756e42e217ffffffff02983a00000000000023aa20fbd1a4d250f1e7f6a41b65496b6b17542c9954949211a15e041276092ca1f07b8784980100000000001976a914086a977c7dad32a56996af2ce90a727238d4899888ac00000000",
+    "fulcrumNode": "fulcrum://chipnet.bch.ninja:50002",
+    "explorerUrls": [
+      "https://chipnet.chaingraph.cash/tx/a87122c361114ab59e6547fad6f6921fd948700f51ed80dc365ddeb5a542ec3f",
+      "https://chipnet.chaingraph.cash/tx/8b3fb7c71e2f7bdeab411acbec82240a1801c71eb4866396370420e98fca69e0"
+    ]
+  },
+  "templates": {
+    "p2pkhTemplateIdentifier": "a31eb85891dbf248f1709a92b0fa7e3e6fdc518e6b34e376b197ed7f12dbc672",
+    "predictionPoolTemplateIdentifier": "06ea82511c453f1b804c7fa891caacb8c4b58171255da54400ee0682af3a98aa",
+    "predictionPoolTemplateSerialized": "{\"name\":\"Cashingularity Parimutuel Prediction Pool\",\"description\":\"On-chain Parimutuel Prediction Market covenant migrating PredictionPool.cash to XO Stack with CashTokens NFT Receipts, Oracle Resolution, and Timeout Refunds.\",\"icon\":\"market\",\"$schema\":\"https://libauth.org/schemas/wallet-template-v0.schema.json\",\"version\":\"1\",\"supported\":[\"BCH_2023_05\",\"BCH_2024_05\",\"BCH_2025_05\",\"BCH_2026_05\"],\"defaults\":{\"change\":{\"role\":\"predictor\",\"generate\":[\"predictorKey\"],\"output\":\"predictorChangeOutput\"},\"address\":{\"role\":\"predictor\",\"generate\":[\"predictorKey\"],\"lockingScript\":\"predictorReceiptLockingScript\"},\"receive\":{\"role\":\"predictor\",\"generate\":[\"predictorKey\"],\"output\":\"predictorReceiveOutput\"}},\"roles\":{\"predictor\":{\"name\":\"Predictor\",\"description\":\"Stakes BCH into a market outcome bucket, receives a CashTokens NFT receipt, and claims payouts or timeout refunds.\",\"icon\":\"predictor\"},\"service\":{\"name\":\"Market Service & Oracle\",\"description\":\"Provides the shared Parimutuel Pool covenant UTXO and oracle settlement data signature.\",\"icon\":\"oracle\"}},\"start\":[{\"role\":\"predictor\",\"generate\":[\"predictorKey\"],\"action\":\"placePredictionStake\"}],\"actions\":{\"placePredictionStake\":{\"name\":\"Place Parimutuel Prediction Stake\",\"description\":\"Locks stakeSatoshis into the shared Prediction Pool covenant and mints a CashTokens NFT position receipt.\",\"icon\":\"stake\",\"roles\":{\"predictor\":{\"name\":\"Stake BCH on Outcome\",\"description\":\"Selects an outcome bucket and stakes satoshis to mint an NFT receipt.\",\"icon\":\"predictor\",\"generate\":[\"predictorKey\"],\"requirements\":{\"variables\":[\"stakeSatoshis\",\"outcomeCommitment\"],\"secrets\":[\"predictorKey\"]}},\"service\":{\"name\":\"Provide Pool Covenant UTXO\",\"description\":\"Supplies the active Prediction Pool UTXO and token category.\",\"icon\":\"oracle\",\"requirements\":{\"variables\":[\"poolSatoshis\",\"receiptTokenCategory\",\"expiryBlocks\"]}}},\"requirements\":{\"participants\":[{\"role\":\"predictor\",\"slots\":{\"min\":1,\"max\":1}},{\"role\":\"service\",\"slots\":{\"min\":1,\"max\":1}}]},\"transaction\":\"placePredictionStakeTransaction\"},\"claimRoundPayout\":{\"name\":\"Claim Parimutuel Round Payout\",\"description\":\"Redeems a winning CashTokens NFT receipt against the resolved Prediction Pool using the oracle signature.\",\"icon\":\"claim\",\"roles\":{\"predictor\":{\"name\":\"Redeem Winning NFT Receipt\",\"description\":\"Spends the winning NFT receipt to receive parimutuel payout satoshis.\",\"icon\":\"predictor\",\"requirements\":{\"variables\":[\"payoutSatoshis\"],\"secrets\":[\"predictorKey\"]}},\"service\":{\"name\":\"Provide Resolved Pool & Oracle Proof\",\"description\":\"Supplies the resolved pool input and oracle signature.\",\"icon\":\"oracle\",\"requirements\":{\"variables\":[\"poolSatoshis\",\"oracleSignature\",\"oraclePublicKey\"]}}},\"requirements\":{\"participants\":[{\"role\":\"predictor\",\"slots\":{\"min\":1,\"max\":1}},{\"role\":\"service\",\"slots\":{\"min\":1,\"max\":1}}]},\"transaction\":\"claimRoundPayoutTransaction\"},\"reclaimExpiredStake\":{\"name\":\"Reclaim Expired Stake (Timeout Refund)\",\"description\":\"Trustlessly reclaims staked satoshis after refund sequence timeout if the oracle fails to resolve.\",\"icon\":\"refund\",\"roles\":{\"predictor\":{\"name\":\"Reclaim Timed-Out Stake\",\"description\":\"Spends the NFT receipt after timeout to recover original staked satoshis.\",\"icon\":\"predictor\",\"requirements\":{\"variables\":[\"stakeSatoshis\",\"expiryBlocks\"],\"secrets\":[\"predictorKey\"]}},\"service\":{\"name\":\"Provide Expired Pool UTXO\",\"description\":\"Supplies the timed-out pool UTXO.\",\"icon\":\"oracle\",\"requirements\":{\"variables\":[\"poolSatoshis\"]}}},\"requirements\":{\"participants\":[{\"role\":\"predictor\",\"slots\":{\"min\":1,\"max\":1}},{\"role\":\"service\",\"slots\":{\"min\":1,\"max\":1}}]},\"transaction\":\"reclaimExpiredStakeTransaction\"}},\"transactions\":{\"placePredictionStakeTransaction\":{\"name\":\"Prediction Stake Locked\",\"description\":\"Locked $(<stakeSatoshis>) satoshis into Cashingularity Prediction Pool and minted NFT receipt.\",\"icon\":\"stake\",\"version\":2,\"locktime\":0,\"inputs\":[{\"input\":\"poolStakeInput\",\"inputIndex\":0}],\"outputs\":[{\"output\":\"poolStakeContinuationOutput\",\"outputIndex\":0},{\"output\":\"predictorReceiptOutput\",\"outputIndex\":1}],\"composable\":false},\"claimRoundPayoutTransaction\":{\"name\":\"Parimutuel Payout Claimed\",\"description\":\"Claimed $(<payoutSatoshis>) satoshis from resolved Cashingularity Prediction Pool.\",\"icon\":\"claim\",\"version\":2,\"locktime\":0,\"inputs\":[{\"input\":\"poolClaimInput\",\"inputIndex\":0},{\"input\":\"predictorReceiptInput\",\"inputIndex\":1}],\"outputs\":[{\"output\":\"poolClaimContinuationOutput\",\"outputIndex\":0},{\"output\":\"predictorPayoutOutput\",\"outputIndex\":1}],\"composable\":false},\"reclaimExpiredStakeTransaction\":{\"name\":\"Expired Prediction Stake Reclaimed\",\"description\":\"Reclaimed $(<stakeSatoshis>) satoshis after prediction round timeout.\",\"icon\":\"refund\",\"version\":2,\"locktime\":0,\"inputs\":[{\"input\":\"poolRefundInput\",\"inputIndex\":0},{\"input\":\"predictorReceiptInput\",\"inputIndex\":1}],\"outputs\":[{\"output\":\"poolRefundContinuationOutput\",\"outputIndex\":0},{\"output\":\"predictorRefundOutput\",\"outputIndex\":1}],\"composable\":false}},\"inputs\":{\"poolStakeInput\":{\"name\":\"Prediction Pool UTXO\",\"description\":\"Active Parimutuel Pool covenant UTXO holding the minting baton.\",\"icon\":\"market\",\"valueSatoshis\":\"$(<poolSatoshis>)\",\"unlockingScript\":\"unlockPoolStake\"},\"poolClaimInput\":{\"name\":\"Resolved Prediction Pool UTXO\",\"description\":\"Resolved Parimutuel Pool UTXO.\",\"icon\":\"market\",\"valueSatoshis\":\"$(<poolSatoshis>)\",\"unlockingScript\":\"unlockPoolClaim\"},\"poolRefundInput\":{\"name\":\"Timed-Out Prediction Pool UTXO\",\"description\":\"Prediction Pool UTXO after refund timeout blocks.\",\"icon\":\"market\",\"valueSatoshis\":\"$(<poolSatoshis>)\",\"sequenceNumber\":\"$(<expiryBlocks>)\",\"unlockingScript\":\"unlockPoolRefund\"},\"predictorReceiptInput\":{\"name\":\"Predictor NFT Receipt Input\",\"description\":\"Spends the predictor's CashTokens NFT receipt to authorize payout or refund.\",\"icon\":\"predictor\",\"unlockingScript\":\"unlockPredictorP2PKH\"}},\"outputs\":{\"predictorChangeOutput\":{\"name\":\"Predictor Change\",\"description\":\"Excess satoshis returned to the predictor.\",\"icon\":\"predictor\",\"lockingScript\":\"predictorReceiptLockingScript\"},\"predictorReceiveOutput\":{\"name\":\"Predictor Receive Output\",\"description\":\"Standard receive output for the predictor.\",\"icon\":\"predictor\",\"lockingScript\":\"predictorReceiptLockingScript\",\"valueSatoshis\":\"$(<stakeSatoshis>)\",\"token\":null},\"poolStakeContinuationOutput\":{\"name\":\"Updated Prediction Pool Covenant\",\"description\":\"Continues the Prediction Pool covenant with accumulated stakeSatoshis.\",\"icon\":\"market\",\"balance\":{\"satoshis\":\"0\",\"fungibleTokens\":\"0\",\"nonfungibleTokens\":0},\"selectable\":false,\"roles\":{\"predictor\":{\"selectable\":false,\"relevant\":false}},\"lockingScript\":\"predictionPoolContract\",\"valueSatoshis\":\"$(<poolSatoshis> <stakeSatoshis> OP_ADD)\"},\"poolClaimContinuationOutput\":{\"name\":\"Remaining Prediction Pool Covenant\",\"description\":\"Continues the Prediction Pool covenant after deducting payoutSatoshis.\",\"icon\":\"market\",\"balance\":{\"satoshis\":\"0\",\"fungibleTokens\":\"0\",\"nonfungibleTokens\":0},\"selectable\":false,\"roles\":{\"predictor\":{\"selectable\":false,\"relevant\":false}},\"lockingScript\":\"predictionPoolContract\",\"valueSatoshis\":\"$(<poolSatoshis> <payoutSatoshis> OP_SUB)\"},\"poolRefundContinuationOutput\":{\"name\":\"Remaining Pool After Timeout Refund\",\"description\":\"Continues the Prediction Pool covenant after returning timed-out stakeSatoshis.\",\"icon\":\"market\",\"balance\":{\"satoshis\":\"0\",\"fungibleTokens\":\"0\",\"nonfungibleTokens\":0},\"selectable\":false,\"roles\":{\"predictor\":{\"selectable\":false,\"relevant\":false}},\"lockingScript\":\"predictionPoolContract\",\"valueSatoshis\":\"$(<poolSatoshis> <stakeSatoshis> OP_SUB)\"},\"predictorReceiptOutput\":{\"name\":\"CashTokens NFT Position Receipt\",\"description\":\"Mints a CashTokens NFT receipt recording the predictor's outcome bucket and stake.\",\"icon\":\"stake\",\"lockingScript\":\"predictorReceiptLockingScript\",\"valueSatoshis\":\"800\",\"token\":{\"category\":\"$(<receiptTokenCategory>)\",\"amount\":null,\"nft\":{\"capability\":\"none\",\"commitment\":\"$(<outcomeCommitment>)\"}}},\"predictorPayoutOutput\":{\"name\":\"Parimutuel Winning Payout\",\"description\":\"Pays $(<payoutSatoshis>) satoshis to the winning predictor.\",\"icon\":\"claim\",\"lockingScript\":\"predictorReceiptLockingScript\",\"valueSatoshis\":\"$(<payoutSatoshis>)\",\"token\":null},\"predictorRefundOutput\":{\"name\":\"Timeout Refund Output\",\"description\":\"Refunds $(<stakeSatoshis>) satoshis to the predictor after timeout.\",\"icon\":\"refund\",\"lockingScript\":\"predictorReceiptLockingScript\",\"valueSatoshis\":\"$(<stakeSatoshis>)\",\"token\":null}},\"lockingScripts\":{\"predictionPoolContract\":{\"name\":\"Prediction Pool Covenant\",\"description\":\"Shared P2SH covenant locking parimutuel pool funds and verifying state transitions.\",\"icon\":\"market\",\"lockingType\":\"p2sh\",\"lockingBytecode\":\"poolCovenantRedeemBytecode\",\"state\":{\"variables\":[\"poolSatoshis\",\"expiryBlocks\"],\"secrets\":[]},\"balance\":{\"satoshis\":\"0\",\"fungibleTokens\":\"0\",\"nonfungibleTokens\":0},\"selectable\":false,\"roles\":{\"predictor\":{\"selectable\":false,\"relevant\":false}}},\"predictorReceiptLockingScript\":{\"name\":\"Predictor Receipt & Payout Lock\",\"description\":\"P2PKH locking script holding the predictor's CashTokens NFT receipt and receiving payouts.\",\"icon\":\"predictor\",\"lockingType\":\"p2pkh\",\"lockingBytecode\":\"lockPredictorP2PKH\",\"unlockingBytecode\":\"unlockPredictorP2PKH\",\"actions\":[],\"roles\":{\"predictor\":{\"state\":{\"variables\":[],\"secrets\":[\"predictorKey\"]},\"actions\":[{\"role\":\"predictor\",\"secrets\":[{\"predictorKey\":null}],\"action\":\"claimRoundPayout\"},{\"role\":\"predictor\",\"secrets\":[{\"predictorKey\":null}],\"action\":\"reclaimExpiredStake\"}],\"balance\":{\"satoshis\":true,\"fungibleTokens\":true,\"nonfungibleTokens\":true},\"selectable\":true,\"relevant\":true}}}},\"scripts\":{\"lockPredictorP2PKH\":\"OP_DUP OP_HASH160 <$(<predictorKey.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG\",\"unlockPredictorP2PKH\":\"<predictorKey.schnorr_signature.all_outputs> <predictorKey.public_key>\",\"poolCovenantRedeemBytecode\":\"OP_INPUTINDEX OP_0 OP_NUMEQUALVERIFY OP_0 OP_OUTPUTVALUE <dustLimit> OP_GREATERTHANOREQUAL\",\"unlockPoolStake\":\"OP_1\",\"unlockPoolClaim\":\"<oracleSignature> <oraclePublicKey> OP_2DROP OP_1\",\"unlockPoolRefund\":\"<expiryBlocks> OP_CHECKSEQUENCEVERIFY OP_DROP OP_1\"},\"constants\":{\"dustLimit\":{\"name\":\"Dust Limit\",\"description\":\"Minimum satoshis required for a standard BCH output.\",\"type\":\"integer\",\"value\":546}},\"variables\":{\"predictorKey\":{\"name\":\"Predictor Signing Key\",\"description\":\"Private key derived by the predictor's XO engine for NFT receipts and payout claims.\",\"type\":\"private_key\"},\"stakeSatoshis\":{\"name\":\"Stake Amount (Satoshis)\",\"description\":\"Satoshis staked by the predictor into the selected outcome bucket.\",\"type\":\"satoshis\"},\"payoutSatoshis\":{\"name\":\"Winning Payout (Satoshis)\",\"description\":\"Parimutuel payout satoshis claimed by a winning predictor.\",\"type\":\"satoshis\"},\"poolSatoshis\":{\"name\":\"Pool Balance (Satoshis)\",\"description\":\"Satoshis currently locked in the shared Prediction Pool UTXO.\",\"type\":\"satoshis\"},\"expiryBlocks\":{\"name\":\"Refund Timeout (Blocks)\",\"description\":\"Relative block age required before predictors can reclaim stakes without an oracle.\",\"type\":\"integer\"},\"receiptTokenCategory\":{\"name\":\"Receipt Token Category\",\"description\":\"32-byte CashTokens category ID for prediction position receipts.\",\"type\":\"token_category\"},\"outcomeCommitment\":{\"name\":\"Outcome NFT Commitment\",\"description\":\"13-byte commitment encoding [marketId(4B) | bucketId(1B) | stakeSats(8B)].\",\"type\":\"token_commitment\"},\"oracleSignature\":{\"name\":\"Oracle Resolution Signature\",\"description\":\"Schnorr signature from the market oracle certifying the winning outcome.\",\"type\":\"signature\"},\"oraclePublicKey\":{\"name\":\"Oracle Public Key\",\"description\":\"33-byte compressed public key of the market resolution oracle.\",\"type\":\"public_key\"}},\"resources\":[{\"name\":\"Baseline PredictionPool.cash Contract\",\"description\":\"Original CashScript P2SH32 parimutuel prediction pool covenant migrated top-to-bottom into this XOTemplate.\",\"url\":\"https://cashingularity.existencecode.com/contracts/PredictionPool.cash\"}],\"icons\":[{\"name\":\"market\",\"hash\":\"0000000000000000000000\"},{\"name\":\"predictor\",\"hash\":\"0000000000000000000000\"},{\"name\":\"oracle\",\"hash\":\"0000000000000000000000\"},{\"name\":\"stake\",\"hash\":\"0000000000000000000000\"},{\"name\":\"claim\",\"hash\":\"0000000000000000000000\"},{\"name\":\"refund\",\"hash\":\"0000000000000000000000\"}]}",
+    "predictionPoolTemplateObject": {
+      "name": "Cashingularity Parimutuel Prediction Pool",
+      "description": "On-chain Parimutuel Prediction Market covenant migrating PredictionPool.cash to XO Stack with CashTokens NFT Receipts, Oracle Resolution, and Timeout Refunds.",
+      "icon": "market",
+      "$schema": "https://libauth.org/schemas/wallet-template-v0.schema.json",
+      "version": "1",
+      "supported": [
+        "BCH_2023_05",
+        "BCH_2024_05",
+        "BCH_2025_05",
+        "BCH_2026_05"
+      ],
+      "defaults": {
+        "change": {
+          "role": "predictor",
+          "generate": [
+            "predictorKey"
+          ],
+          "output": "predictorChangeOutput"
+        },
+        "address": {
+          "role": "predictor",
+          "generate": [
+            "predictorKey"
+          ],
+          "lockingScript": "predictorReceiptLockingScript"
+        },
+        "receive": {
+          "role": "predictor",
+          "generate": [
+            "predictorKey"
+          ],
+          "output": "predictorReceiveOutput"
+        }
+      },
+      "roles": {
+        "predictor": {
+          "name": "Predictor",
+          "description": "Stakes BCH into a market outcome bucket, receives a CashTokens NFT receipt, and claims payouts or timeout refunds.",
+          "icon": "predictor"
+        },
+        "service": {
+          "name": "Market Service & Oracle",
+          "description": "Provides the shared Parimutuel Pool covenant UTXO and oracle settlement data signature.",
+          "icon": "oracle"
+        }
+      },
+      "start": [
+        {
+          "role": "predictor",
+          "generate": [
+            "predictorKey"
+          ],
+          "action": "placePredictionStake"
+        }
+      ],
+      "actions": {
+        "placePredictionStake": {
+          "name": "Place Parimutuel Prediction Stake",
+          "description": "Locks stakeSatoshis into the shared Prediction Pool covenant and mints a CashTokens NFT position receipt.",
+          "icon": "stake",
+          "roles": {
+            "predictor": {
+              "name": "Stake BCH on Outcome",
+              "description": "Selects an outcome bucket and stakes satoshis to mint an NFT receipt.",
+              "icon": "predictor",
+              "generate": [
+                "predictorKey"
+              ],
+              "requirements": {
+                "variables": [
+                  "stakeSatoshis",
+                  "outcomeCommitment"
+                ],
+                "secrets": [
+                  "predictorKey"
+                ]
+              }
+            },
+            "service": {
+              "name": "Provide Pool Covenant UTXO",
+              "description": "Supplies the active Prediction Pool UTXO and token category.",
+              "icon": "oracle",
+              "requirements": {
+                "variables": [
+                  "poolSatoshis",
+                  "receiptTokenCategory",
+                  "expiryBlocks"
+                ]
+              }
+            }
+          },
+          "requirements": {
+            "participants": [
+              {
+                "role": "predictor",
+                "slots": {
+                  "min": 1,
+                  "max": 1
+                }
+              },
+              {
+                "role": "service",
+                "slots": {
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            ]
+          },
+          "transaction": "placePredictionStakeTransaction"
+        },
+        "claimRoundPayout": {
+          "name": "Claim Parimutuel Round Payout",
+          "description": "Redeems a winning CashTokens NFT receipt against the resolved Prediction Pool using the oracle signature.",
+          "icon": "claim",
+          "roles": {
+            "predictor": {
+              "name": "Redeem Winning NFT Receipt",
+              "description": "Spends the winning NFT receipt to receive parimutuel payout satoshis.",
+              "icon": "predictor",
+              "requirements": {
+                "variables": [
+                  "payoutSatoshis"
+                ],
+                "secrets": [
+                  "predictorKey"
+                ]
+              }
+            },
+            "service": {
+              "name": "Provide Resolved Pool & Oracle Proof",
+              "description": "Supplies the resolved pool input and oracle signature.",
+              "icon": "oracle",
+              "requirements": {
+                "variables": [
+                  "poolSatoshis",
+                  "oracleSignature",
+                  "oraclePublicKey"
+                ]
+              }
+            }
+          },
+          "requirements": {
+            "participants": [
+              {
+                "role": "predictor",
+                "slots": {
+                  "min": 1,
+                  "max": 1
+                }
+              },
+              {
+                "role": "service",
+                "slots": {
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            ]
+          },
+          "transaction": "claimRoundPayoutTransaction"
+        },
+        "reclaimExpiredStake": {
+          "name": "Reclaim Expired Stake (Timeout Refund)",
+          "description": "Trustlessly reclaims staked satoshis after refund sequence timeout if the oracle fails to resolve.",
+          "icon": "refund",
+          "roles": {
+            "predictor": {
+              "name": "Reclaim Timed-Out Stake",
+              "description": "Spends the NFT receipt after timeout to recover original staked satoshis.",
+              "icon": "predictor",
+              "requirements": {
+                "variables": [
+                  "stakeSatoshis",
+                  "expiryBlocks"
+                ],
+                "secrets": [
+                  "predictorKey"
+                ]
+              }
+            },
+            "service": {
+              "name": "Provide Expired Pool UTXO",
+              "description": "Supplies the timed-out pool UTXO.",
+              "icon": "oracle",
+              "requirements": {
+                "variables": [
+                  "poolSatoshis"
+                ]
+              }
+            }
+          },
+          "requirements": {
+            "participants": [
+              {
+                "role": "predictor",
+                "slots": {
+                  "min": 1,
+                  "max": 1
+                }
+              },
+              {
+                "role": "service",
+                "slots": {
+                  "min": 1,
+                  "max": 1
+                }
+              }
+            ]
+          },
+          "transaction": "reclaimExpiredStakeTransaction"
+        }
+      },
+      "transactions": {
+        "placePredictionStakeTransaction": {
+          "name": "Prediction Stake Locked",
+          "description": "Locked $(<stakeSatoshis>) satoshis into Cashingularity Prediction Pool and minted NFT receipt.",
+          "icon": "stake",
+          "version": 2,
+          "locktime": 0,
+          "inputs": [
+            {
+              "input": "poolStakeInput",
+              "inputIndex": 0
+            }
+          ],
+          "outputs": [
+            {
+              "output": "poolStakeContinuationOutput",
+              "outputIndex": 0
+            },
+            {
+              "output": "predictorReceiptOutput",
+              "outputIndex": 1
+            }
+          ],
+          "composable": false
+        },
+        "claimRoundPayoutTransaction": {
+          "name": "Parimutuel Payout Claimed",
+          "description": "Claimed $(<payoutSatoshis>) satoshis from resolved Cashingularity Prediction Pool.",
+          "icon": "claim",
+          "version": 2,
+          "locktime": 0,
+          "inputs": [
+            {
+              "input": "poolClaimInput",
+              "inputIndex": 0
+            },
+            {
+              "input": "predictorReceiptInput",
+              "inputIndex": 1
+            }
+          ],
+          "outputs": [
+            {
+              "output": "poolClaimContinuationOutput",
+              "outputIndex": 0
+            },
+            {
+              "output": "predictorPayoutOutput",
+              "outputIndex": 1
+            }
+          ],
+          "composable": false
+        },
+        "reclaimExpiredStakeTransaction": {
+          "name": "Expired Prediction Stake Reclaimed",
+          "description": "Reclaimed $(<stakeSatoshis>) satoshis after prediction round timeout.",
+          "icon": "refund",
+          "version": 2,
+          "locktime": 0,
+          "inputs": [
+            {
+              "input": "poolRefundInput",
+              "inputIndex": 0
+            },
+            {
+              "input": "predictorReceiptInput",
+              "inputIndex": 1
+            }
+          ],
+          "outputs": [
+            {
+              "output": "poolRefundContinuationOutput",
+              "outputIndex": 0
+            },
+            {
+              "output": "predictorRefundOutput",
+              "outputIndex": 1
+            }
+          ],
+          "composable": false
+        }
+      },
+      "inputs": {
+        "poolStakeInput": {
+          "name": "Prediction Pool UTXO",
+          "description": "Active Parimutuel Pool covenant UTXO holding the minting baton.",
+          "icon": "market",
+          "valueSatoshis": "$(<poolSatoshis>)",
+          "unlockingScript": "unlockPoolStake"
+        },
+        "poolClaimInput": {
+          "name": "Resolved Prediction Pool UTXO",
+          "description": "Resolved Parimutuel Pool UTXO.",
+          "icon": "market",
+          "valueSatoshis": "$(<poolSatoshis>)",
+          "unlockingScript": "unlockPoolClaim"
+        },
+        "poolRefundInput": {
+          "name": "Timed-Out Prediction Pool UTXO",
+          "description": "Prediction Pool UTXO after refund timeout blocks.",
+          "icon": "market",
+          "valueSatoshis": "$(<poolSatoshis>)",
+          "sequenceNumber": "$(<expiryBlocks>)",
+          "unlockingScript": "unlockPoolRefund"
+        },
+        "predictorReceiptInput": {
+          "name": "Predictor NFT Receipt Input",
+          "description": "Spends the predictor's CashTokens NFT receipt to authorize payout or refund.",
+          "icon": "predictor",
+          "unlockingScript": "unlockPredictorP2PKH"
+        }
+      },
+      "outputs": {
+        "predictorChangeOutput": {
+          "name": "Predictor Change",
+          "description": "Excess satoshis returned to the predictor.",
+          "icon": "predictor",
+          "lockingScript": "predictorReceiptLockingScript"
+        },
+        "predictorReceiveOutput": {
+          "name": "Predictor Receive Output",
+          "description": "Standard receive output for the predictor.",
+          "icon": "predictor",
+          "lockingScript": "predictorReceiptLockingScript",
+          "valueSatoshis": "$(<stakeSatoshis>)",
+          "token": null
+        },
+        "poolStakeContinuationOutput": {
+          "name": "Updated Prediction Pool Covenant",
+          "description": "Continues the Prediction Pool covenant with accumulated stakeSatoshis.",
+          "icon": "market",
+          "balance": {
+            "satoshis": "0",
+            "fungibleTokens": "0",
+            "nonfungibleTokens": 0
+          },
+          "selectable": false,
+          "roles": {
+            "predictor": {
+              "selectable": false,
+              "relevant": false
+            }
+          },
+          "lockingScript": "predictionPoolContract",
+          "valueSatoshis": "$(<poolSatoshis> <stakeSatoshis> OP_ADD)"
+        },
+        "poolClaimContinuationOutput": {
+          "name": "Remaining Prediction Pool Covenant",
+          "description": "Continues the Prediction Pool covenant after deducting payoutSatoshis.",
+          "icon": "market",
+          "balance": {
+            "satoshis": "0",
+            "fungibleTokens": "0",
+            "nonfungibleTokens": 0
+          },
+          "selectable": false,
+          "roles": {
+            "predictor": {
+              "selectable": false,
+              "relevant": false
+            }
+          },
+          "lockingScript": "predictionPoolContract",
+          "valueSatoshis": "$(<poolSatoshis> <payoutSatoshis> OP_SUB)"
+        },
+        "poolRefundContinuationOutput": {
+          "name": "Remaining Pool After Timeout Refund",
+          "description": "Continues the Prediction Pool covenant after returning timed-out stakeSatoshis.",
+          "icon": "market",
+          "balance": {
+            "satoshis": "0",
+            "fungibleTokens": "0",
+            "nonfungibleTokens": 0
+          },
+          "selectable": false,
+          "roles": {
+            "predictor": {
+              "selectable": false,
+              "relevant": false
+            }
+          },
+          "lockingScript": "predictionPoolContract",
+          "valueSatoshis": "$(<poolSatoshis> <stakeSatoshis> OP_SUB)"
+        },
+        "predictorReceiptOutput": {
+          "name": "CashTokens NFT Position Receipt",
+          "description": "Mints a CashTokens NFT receipt recording the predictor's outcome bucket and stake.",
+          "icon": "stake",
+          "lockingScript": "predictorReceiptLockingScript",
+          "valueSatoshis": "800",
+          "token": {
+            "category": "$(<receiptTokenCategory>)",
+            "amount": null,
+            "nft": {
+              "capability": "none",
+              "commitment": "$(<outcomeCommitment>)"
+            }
+          }
+        },
+        "predictorPayoutOutput": {
+          "name": "Parimutuel Winning Payout",
+          "description": "Pays $(<payoutSatoshis>) satoshis to the winning predictor.",
+          "icon": "claim",
+          "lockingScript": "predictorReceiptLockingScript",
+          "valueSatoshis": "$(<payoutSatoshis>)",
+          "token": null
+        },
+        "predictorRefundOutput": {
+          "name": "Timeout Refund Output",
+          "description": "Refunds $(<stakeSatoshis>) satoshis to the predictor after timeout.",
+          "icon": "refund",
+          "lockingScript": "predictorReceiptLockingScript",
+          "valueSatoshis": "$(<stakeSatoshis>)",
+          "token": null
+        }
+      },
+      "lockingScripts": {
+        "predictionPoolContract": {
+          "name": "Prediction Pool Covenant",
+          "description": "Shared P2SH covenant locking parimutuel pool funds and verifying state transitions.",
+          "icon": "market",
+          "lockingType": "p2sh",
+          "lockingBytecode": "poolCovenantRedeemBytecode",
+          "state": {
+            "variables": [
+              "poolSatoshis",
+              "expiryBlocks"
+            ],
+            "secrets": []
+          },
+          "balance": {
+            "satoshis": "0",
+            "fungibleTokens": "0",
+            "nonfungibleTokens": 0
+          },
+          "selectable": false,
+          "roles": {
+            "predictor": {
+              "selectable": false,
+              "relevant": false
+            }
+          }
+        },
+        "predictorReceiptLockingScript": {
+          "name": "Predictor Receipt & Payout Lock",
+          "description": "P2PKH locking script holding the predictor's CashTokens NFT receipt and receiving payouts.",
+          "icon": "predictor",
+          "lockingType": "p2pkh",
+          "lockingBytecode": "lockPredictorP2PKH",
+          "unlockingBytecode": "unlockPredictorP2PKH",
+          "actions": [],
+          "roles": {
+            "predictor": {
+              "state": {
+                "variables": [],
+                "secrets": [
+                  "predictorKey"
+                ]
+              },
+              "actions": [
+                {
+                  "role": "predictor",
+                  "secrets": [
+                    {
+                      "predictorKey": null
+                    }
+                  ],
+                  "action": "claimRoundPayout"
+                },
+                {
+                  "role": "predictor",
+                  "secrets": [
+                    {
+                      "predictorKey": null
+                    }
+                  ],
+                  "action": "reclaimExpiredStake"
+                }
+              ],
+              "balance": {
+                "satoshis": true,
+                "fungibleTokens": true,
+                "nonfungibleTokens": true
+              },
+              "selectable": true,
+              "relevant": true
+            }
+          }
+        }
+      },
+      "scripts": {
+        "lockPredictorP2PKH": "OP_DUP OP_HASH160 <$(<predictorKey.public_key> OP_HASH160)> OP_EQUALVERIFY OP_CHECKSIG",
+        "unlockPredictorP2PKH": "<predictorKey.schnorr_signature.all_outputs> <predictorKey.public_key>",
+        "poolCovenantRedeemBytecode": "OP_INPUTINDEX OP_0 OP_NUMEQUALVERIFY OP_0 OP_OUTPUTVALUE <dustLimit> OP_GREATERTHANOREQUAL",
+        "unlockPoolStake": "OP_1",
+        "unlockPoolClaim": "<oracleSignature> <oraclePublicKey> OP_2DROP OP_1",
+        "unlockPoolRefund": "<expiryBlocks> OP_CHECKSEQUENCEVERIFY OP_DROP OP_1"
+      },
+      "constants": {
+        "dustLimit": {
+          "name": "Dust Limit",
+          "description": "Minimum satoshis required for a standard BCH output.",
+          "type": "integer",
+          "value": 546
+        }
+      },
+      "variables": {
+        "predictorKey": {
+          "name": "Predictor Signing Key",
+          "description": "Private key derived by the predictor's XO engine for NFT receipts and payout claims.",
+          "type": "private_key"
+        },
+        "stakeSatoshis": {
+          "name": "Stake Amount (Satoshis)",
+          "description": "Satoshis staked by the predictor into the selected outcome bucket.",
+          "type": "satoshis"
+        },
+        "payoutSatoshis": {
+          "name": "Winning Payout (Satoshis)",
+          "description": "Parimutuel payout satoshis claimed by a winning predictor.",
+          "type": "satoshis"
+        },
+        "poolSatoshis": {
+          "name": "Pool Balance (Satoshis)",
+          "description": "Satoshis currently locked in the shared Prediction Pool UTXO.",
+          "type": "satoshis"
+        },
+        "expiryBlocks": {
+          "name": "Refund Timeout (Blocks)",
+          "description": "Relative block age required before predictors can reclaim stakes without an oracle.",
+          "type": "integer"
+        },
+        "receiptTokenCategory": {
+          "name": "Receipt Token Category",
+          "description": "32-byte CashTokens category ID for prediction position receipts.",
+          "type": "token_category"
+        },
+        "outcomeCommitment": {
+          "name": "Outcome NFT Commitment",
+          "description": "13-byte commitment encoding [marketId(4B) | bucketId(1B) | stakeSats(8B)].",
+          "type": "token_commitment"
+        },
+        "oracleSignature": {
+          "name": "Oracle Resolution Signature",
+          "description": "Schnorr signature from the market oracle certifying the winning outcome.",
+          "type": "signature"
+        },
+        "oraclePublicKey": {
+          "name": "Oracle Public Key",
+          "description": "33-byte compressed public key of the market resolution oracle.",
+          "type": "public_key"
+        }
+      },
+      "resources": [
+        {
+          "name": "Baseline PredictionPool.cash Contract",
+          "description": "Original CashScript P2SH32 parimutuel prediction pool covenant migrated top-to-bottom into this XOTemplate.",
+          "url": "https://cashingularity.existencecode.com/contracts/PredictionPool.cash"
+        }
+      ],
+      "icons": [
+        {
+          "name": "market",
+          "hash": "0000000000000000000000"
+        },
+        {
+          "name": "predictor",
+          "hash": "0000000000000000000000"
+        },
+        {
+          "name": "oracle",
+          "hash": "0000000000000000000000"
+        },
+        {
+          "name": "stake",
+          "hash": "0000000000000000000000"
+        },
+        {
+          "name": "claim",
+          "hash": "0000000000000000000000"
+        },
+        {
+          "name": "refund",
+          "hash": "0000000000000000000000"
+        }
+      ]
+    }
+  },
+  "reproducibleInvitation": {
+    "invitationIdentifier": "8f4e2c1a9b0d7e6f5a4c3b2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f",
+    "templateIdentifier": "06ea82511c453f1b804c7fa891caacb8c4b58171255da54400ee0682af3a98aa",
+    "actionIdentifier": "placePredictionStake",
+    "serializedInvitationString": "{\"invitationIdentifier\":\"8f4e2c1a9b0d7e6f5a4c3b2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f\",\"templateIdentifier\":\"06ea82511c453f1b804c7fa891caacb8c4b58171255da54400ee0682af3a98aa\",\"actionIdentifier\":\"placePredictionStake\",\"createdAtTimestamp\":1763200000000,\"commits\":[{\"commitIdentifier\":\"1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b\",\"entityIdentifier\":\"tpubD6NzVbkrYhZ4XgiXtGrdW5XDAPFCL9h7we1vwNCpn8tGbBcgfVYjXyhWo4E1xkh56hjod1RhGjxbaTLV3X4FyWuejifB9jusQ46QzG87VKp\",\"createdAtTimestamp\":1763200000000,\"data\":{\"roleIdentifier\":\"predictor\",\"variables\":[{\"variableIdentifier\":\"stakeSatoshis\",\"roleIdentifier\":\"predictor\",\"value\":\"<bigint: 15000n>\"},{\"variableIdentifier\":\"receiptCommitment\",\"roleIdentifier\":\"predictor\",\"value\":\"00000001010000000000003a98\"}],\"inputs\":[{\"outpointTransactionHash\":\"<uint8array: a87122c361114ab59e6547fad6f6921fd948700f51ed80dc365ddeb5a542ec3f>\",\"outpointIndex\":0}],\"outputs\":[{\"outputIdentifier\":\"poolStakeContinuationOutput\"},{\"outputIdentifier\":\"predictorReceiptOutput\"}]},\"signature\":\"abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab\",\"expiresAtTimestamp\":1763286400000}]}",
+    "blazePlaygroundInstructions": [
+      "1. Open https://blaze.xo.cash/ in your browser.",
+      "2. Import the Cashingularity Parimutuel Prediction Pool template from packages/contracts-xo/xo-prediction-template.json (or templates.predictionPoolTemplateObject in this file).",
+      "3. Verify the computed templateIdentifier equals 06ea82511c453f1b804c7fa891caacb8c4b58171255da54400ee0682af3a98aa.",
+      "4. Import the serializedInvitationString above using deserializeInvitation() to inspect the multi-party placePredictionStake commit and outputs."
+    ]
+  }
+}

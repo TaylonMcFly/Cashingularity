@@ -1,0 +1,57 @@
+# Dependencies and generated output
+node_modules/
+dist/
+coverage/
+.vite/
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+*.ppk
+*.keystore
+*.kdbx
+id_rsa*
+id_ed25519*
+*.secrets.json
+*.credentials.json
+
+# Runtime, wallet and verification state
+.cashingularity-data/
+.cashingularity-test-data/
+.xo-runtime-cache/
+.xo-chipnet-e2e/
+.wallet-release-build*/
+*.db
+*.sqlite*
+*.db.json
+*.wal.jsonl
+*.log
+*.tmp
+playwright-report/
+test-results/
+
+# Local history, research and unpublished source assets
+/Cashingularity/
+/Context for work/
+/Preparation/
+/assets/blender/
+/assets/sculpt/
+/assets/sculpt.rar
+/*-smoke-results.json
+/audit-*.json
+/local-chart-session-verification.json
+/AUDIT_REPORT_*.md
+/security-audit.diff
+/docs/RELEASE_VERIFICATION_*.md
+/docs/ui-polish/before-*.png
+/docs/ui-polish/after-connect.png
+/docs/ui-polish/after-watch.png

@@ -1,0 +1,42 @@
+.online-home { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .94fr); gap: 14px; align-items: start; }
+.online-join-column { display: grid; min-width: 0; gap: 14px; }
+.online-setup, .online-browser, .online-lobby { display: grid; gap: 16px; }
+.online-lobby { width: min(100%, 850px); margin-inline: auto; }
+.online-setup h2 { display: flex; gap: 9px; align-items: center; }
+.online-setup h2 svg, .online-code svg { color: var(--race-gold); }
+.online-identity { display: flex; flex-wrap: wrap; align-items: end; gap: 9px; }
+.online-identity label { flex: 1 1 160px; }
+.online-identity input[readonly] { background: var(--race-muted); }
+.online-private { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 10px; padding-top: 13px; border-top: 1px solid var(--race-border); }
+.online-card-title, .online-header-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 9px; }
+.online-card-title p { margin-top: 4px; font-size: 13px; }
+.online-members, .online-browser ul { display: grid; gap: 7px; list-style: none; margin: 0; padding: 0; }
+.online-members li, .online-browser li { display: flex; min-height: 47px; min-width: 0; align-items: center; gap: 9px; padding: 8px 11px; border-radius: 9px; border: 1px solid var(--race-border); background: var(--race-muted); }
+.online-members li strong { overflow-wrap: anywhere; }
+.online-members li small, .online-browser li .btn { margin-inline-start: auto; }
+.online-members small, .online-browser small, .online-votes, .online-reconnect-note { color: var(--race-sub); font-size: 13px; }
+.online-browser li > span { display: grid; gap: 2px; }
+.online-browser > p { font-size: 14px; }
+.online-code code { font-family: ui-monospace, monospace; letter-spacing: .09em; font-size: 15px; }
+.online-reconnect-note { max-width: 850px; width: 100%; margin-inline: auto; }
+.online-link-status { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 36px; padding: 6px 9px; color: var(--race-sub); border: 1px solid var(--race-border); border-radius: 8px; background: var(--race-panel); font-size: 13px; }
+.online-link-status small { font-size: 11px; font-variant-numeric: tabular-nums; }
+.online-link-status[data-status="online"] svg { color: var(--success-text, #2d8a52); }
+.online-link-status[data-status="reconnecting"] svg { color: var(--race-gold); }
+.online-results { width: min(100%, 1000px); margin-inline: auto; }
+.online-race .race-paused p { color: var(--track-sub); }
+.online-race .race-live-order strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.online-board .leaderboard-filter-bar { max-width: 550px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (max-width: 768px) {
+  .online-home { grid-template-columns: minmax(0, 1fr); }
+  .online-page .race-titlebar { gap: 6px 12px; }
+  .online-page .online-header-actions { gap: 6px; }
+  .online-page[data-running="true"] .online-header-actions { flex: 1 1 100%; }
+  .online-page .online-header-actions .btn { padding-inline: 9px; font-size: 12px; }
+  .online-members li small, .online-browser small, .online-votes { font-size: 11px; }
+}
+@media (orientation: landscape) and (max-height: 540px) {
+  .online-page[data-running="true"] .online-header-actions { flex: 0 1 auto; }
+  .online-page .online-header-actions .btn { min-height: 36px; }
+}

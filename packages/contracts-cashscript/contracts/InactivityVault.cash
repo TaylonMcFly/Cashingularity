@@ -1,0 +1,30 @@
+pragma cashscript ^0.10.0;
+
+/**
+ * Cashingularity On-Chain Inactivity Vault / Dead-Man's Switch Covenant
+ * Enforces relative timelock via OP_CHECKSEQUENCEVERIFY (tx.age >= inactivityPeriod).
+ */
+contract InactivityVault(
+    bytes20 ownerPkh,
+    bytes20 beneficiaryPkh,
+    int inactivityPeriod
+) {
+    /**
+     * Owner can spend funds or send a heartbeat transaction (re-locking to the same covenant)
+     * at any time to reset the UTXO age counter to 0.
+     */
+    function heartbeatOrSpend(pubkey ownerPk, sig ownerSig) {
+        require(hash160(ownerPk) == ownerPkh);
+        require(checkSig(ownerSig, ownerPk));
+    }
+
+    /**
+     * Backup beneficiary can sweep vault funds only after the UTXO has remained
+     * unspent for at least `inactivityPeriod` blocks (OP_CHECKSEQUENCEVERIFY).
+     */
+    function reclaimByBeneficiary(pubkey beneficiaryPk, sig beneficiarySig) {
+        require(tx.age >= inactivityPeriod);
+        require(hash160(beneficiaryPk) == beneficiaryPkh);
+        require(checkSig(beneficiarySig, beneficiaryPk));
+    }
+}

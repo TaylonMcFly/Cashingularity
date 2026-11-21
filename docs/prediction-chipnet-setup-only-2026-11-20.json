@@ -1,0 +1,102 @@
+{
+  "network": "chipnet",
+  "genesisHash": "000000001dd410c49a788668ce26751718cc797474d3152a5fc073dd44fd9f7b",
+  "checkpoint": [
+    339169,
+    "0000000054a6b4cea78ee40540d927be564ae9937d6236f217bf0994c8c79fff"
+  ],
+  "peers": [
+    "chipnet.bch.ninja",
+    "chipnet.imaginary.cash"
+  ],
+  "address": "bchtest:zqqv565d2gv0xz7twemk52pp4d6qhjkrsyyks3c60h",
+  "artifact": "b4f0ecdbad5a8b6065ebfbeb302a3e3715950cbeeda555863a6f67676beeab82",
+  "faucet": {
+    "txid": "1786e51de35b5ff01cd8253564e916defe7ba7609f6455a4caf2f68416ad35e2",
+    "vout": 1,
+    "valueSatoshis": "100000",
+    "raw": "0200000001515b217a15b7a9af54a1c6e21d7654927ad3688ce25e51f451d3fcdf256c35c00000000006012a03012a9cffffffff02278d29750000000017a9146176700281d3cdd8009da0f871bda7c2b0450c6787a0860100000000001976a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac00000000"
+  },
+  "rounds": [
+    {
+      "categoryId": "2d9afe76c80d2c67fe5996407124b10c33b5274d95e9f58449a70a84e886b2d8",
+      "address": "bchtest:pwf2n58kfejtccyut9749945wtj397jnfnp0mnt206h58vcgl47rj4ynckt4x",
+      "lockingBytecode": "aa2092a9d0f64e64bc609c597d5296b472e512fa534cc2fdcd6a7eaf43b308fd7c3987",
+      "marketId": 20261120,
+      "strikePriceCents": 20000,
+      "expiry": 339723,
+      "refundTime": 339724,
+      "oraclePublicKey": "02a637d656d58af955c30f7fac7baf156e4d7c9a9b1a3d18d78dd910394423bb95",
+      "reservePkh": "00ca6a8d5218f30bcb76776a2821ab740bcac381"
+    },
+    {
+      "categoryId": "22db4dc6b6003b98fe11a6551dd192c3cc7dfd3f33bb8d6db87db16f74de13bf",
+      "address": "bchtest:pd8dv5s4p20aawgk3wxsjempwmat6cdken0rkck6d69xq62lmyuky2dp0v0wk",
+      "lockingBytecode": "aa204ed652150a9fdeb9168b8d09676176fabd61b6ccde3b62da6e8a60695fd9396287",
+      "marketId": 20261121,
+      "strikePriceCents": 20000,
+      "expiry": 339723,
+      "refundTime": 339724,
+      "oraclePublicKey": "02a637d656d58af955c30f7fac7baf156e4d7c9a9b1a3d18d78dd910394423bb95",
+      "reservePkh": "00ca6a8d5218f30bcb76776a2821ab740bcac381"
+    }
+  ],
+  "transactions": [
+    {
+      "label": "split faucet funding",
+      "txid": "2d9afe76c80d2c67fe5996407124b10c33b5274d95e9f58449a70a84e886b2d8",
+      "raw": "0200000001e235ad1684f6f2caa455649f60a77bfede16e9643525d81cf05f5be31de586170100000064412b7a636f92542d8fbc39eac7935e10a5b1a4ab52f59cbdc58d584d8aa4b0691654ddc39db48c2143ee17af31cd50e843112ffee96b5e38f81666aebae7216ccf61210316ee5a0046d04997b6e2f5f0ab9685346562f60b0a20ab98c6ba8c4a1a006c6cfeffffff03a8610000000000001976a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac983a0000000000001976a91453180b414732563a9c6200a11be73087c01ae62b88ac6ce80000000000001976a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac00000000",
+      "feeSats": "500",
+      "sourceOutputs": [
+        {
+          "lockingBytecode": "76a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac",
+          "valueSatoshis": "100000"
+        }
+      ],
+      "responseObserved": true,
+      "observedAt": "2026-11-20T14:17:18.636Z"
+    },
+    {
+      "label": "isolate refund genesis input",
+      "txid": "22db4dc6b6003b98fe11a6551dd192c3cc7dfd3f33bb8d6db87db16f74de13bf",
+      "raw": "0200000001d8b286e8840aa74984f5e9954d27b5330cb12471409659fe672c0dc876fe9a2d0200000064413c342d9676c27eb204c7188ff72e2dc33936b61f3dbecf6f93b0646b676985b2a0495f891e1e178dc55fe0564693e79ca06604fef134c3a34c7cd5c5670c9d0261210316ee5a0046d04997b6e2f5f0ab9685346562f60b0a20ab98c6ba8c4a1a006c6cfeffffff0178e60000000000001976a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac00000000",
+      "feeSats": "500",
+      "sourceOutputs": [
+        {
+          "lockingBytecode": "76a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac",
+          "valueSatoshis": "59500"
+        }
+      ],
+      "responseObserved": true,
+      "observedAt": "2026-11-20T14:17:32.485Z"
+    },
+    {
+      "label": "settlement genesis",
+      "txid": "01423dcebb748308224834bbd98660202da1030180552201836b850afd84ed1d",
+      "raw": "0200000001d8b286e8840aa74984f5e9954d27b5330cb12471409659fe672c0dc876fe9a2d0000000064411519a28fe47100b6dfbe21c4a8fc08ceecd7734f2e48edaa821a4563928bbb362f9d2e7837a464c1544c8af26374b561952b5e3629469dca9bec3131d7fe409461210316ee5a0046d04997b6e2f5f0ab9685346562f60b0a20ab98c6ba8c4a1a006c6cfeffffff02dc0500000000000057efd8b286e8840aa74984f5e9954d27b5330cb12471409659fe672c0dc876fe9a2d62110000000000000000000000000000000000aa2092a9d0f64e64bc609c597d5296b472e512fa534cc2fdcd6a7eaf43b308fd7c3987d8590000000000001976a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac00000000",
+      "feeSats": "500",
+      "sourceOutputs": [
+        {
+          "lockingBytecode": "76a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac",
+          "valueSatoshis": "25000"
+        }
+      ],
+      "responseObserved": true,
+      "observedAt": "2026-11-20T14:17:37.247Z"
+    },
+    {
+      "label": "refund genesis",
+      "txid": "8e8fafe2146777e5d6ddbcd89a5af81c3e10102a94d67be4aa27177b8ed89d8d",
+      "raw": "0200000001bf13de746fb17db86d8dbb333ffd7dccc392d11d55a611fe983b00b6c64ddb2200000000644148d1b60b8bf844eeda110e4024a498bd7bd5783baaf25d9a322c738e7bef28435c21b3a7be919b702619d5560b9a84240fdf6ccdb835061f2d035b5e9e0074d261210316ee5a0046d04997b6e2f5f0ab9685346562f60b0a20ab98c6ba8c4a1a006c6cfeffffff02dc0500000000000057efbf13de746fb17db86d8dbb333ffd7dccc392d11d55a611fe983b00b6c64ddb2262110000000000000000000000000000000000aa204ed652150a9fdeb9168b8d09676176fabd61b6ccde3b62da6e8a60695fd9396287a8de0000000000001976a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac00000000",
+      "feeSats": "500",
+      "sourceOutputs": [
+        {
+          "lockingBytecode": "76a91400ca6a8d5218f30bcb76776a2821ab740bcac38188ac",
+          "valueSatoshis": "59000"
+        }
+      ],
+      "responseObserved": true,
+      "observedAt": "2026-11-20T14:17:40.977Z"
+    }
+  ]
+}

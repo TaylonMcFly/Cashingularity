@@ -1,0 +1,28 @@
+{
+  "name": "@cashingularity/contracts-solidcash",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Isolated SolidCash (.scash) Stateful Parimutuel Prediction Pool Covenant & SolidHat Test Suite (BCH BLAZE 2026 - Track C)",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --config vitest.solidhat.config.ts"
+  },
+  "peerDependencies": {
+    "@solidcash/solidc": "^0.50.0",
+    "@solidcash/solidcash": "^0.50.1",
+    "@solidcash/testing": "^0.50.0"
+  },
+  "peerDependenciesMeta": {
+    "@solidcash/solidc": { "optional": true },
+    "@solidcash/solidcash": { "optional": true },
+    "@solidcash/testing": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  }
+}

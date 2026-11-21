@@ -1,0 +1,215 @@
+{
+  "browser": "158.0.8127.36",
+  "testedAt": "2026-11-21T12:44:36.067Z",
+  "viewportChecks": [
+    {
+      "width": 375,
+      "theme": "light"
+    },
+    {
+      "width": 375,
+      "theme": "dark"
+    },
+    {
+      "width": 390,
+      "theme": "light"
+    },
+    {
+      "width": 390,
+      "theme": "dark"
+    },
+    {
+      "width": 768,
+      "theme": "light"
+    },
+    {
+      "width": 768,
+      "theme": "dark"
+    },
+    {
+      "width": 1280,
+      "theme": "light"
+    },
+    {
+      "width": 1280,
+      "theme": "dark"
+    },
+    {
+      "width": 1920,
+      "theme": "light"
+    },
+    {
+      "width": 1920,
+      "theme": "dark"
+    }
+  ],
+  "publicBrowserAndPrivateInvite": true,
+  "twoPlayer": {
+    "id": "1b0a2719-8f14-44cd-91bf-e746493e6e46",
+    "room": "M7NYUC",
+    "seed": 157,
+    "ranking": [
+      {
+        "place": 1,
+        "seat": 1,
+        "name": "Nova Touch",
+        "finishMs": 35378,
+        "dodges": 23,
+        "hits": 5,
+        "boosts": 3
+      },
+      {
+        "place": 2,
+        "seat": 0,
+        "name": "Rook Desktop",
+        "finishMs": 37444,
+        "dodges": 22,
+        "hits": 17,
+        "boosts": 0
+      }
+    ],
+    "frames": [
+      {
+        "frames": 413,
+        "fps": 100,
+        "p95FrameIntervalMs": 11,
+        "p95FrameCallbackMs": 0.3
+      },
+      {
+        "frames": 412,
+        "fps": 100,
+        "p95FrameIntervalMs": 11,
+        "p95FrameCallbackMs": 1.9
+      }
+    ],
+    "rematch": true,
+    "suspendedAndReconnected": true,
+    "simultaneousTouchBoost": true,
+    "mobileCpuThrottle": 4,
+    "reconnectedAfterTransportLoss": true,
+    "wire": [
+      {
+        "name": "Rook Desktop",
+        "sentInputs": 200,
+        "thrustInputs": 199,
+        "receivedSnapshots": 749,
+        "droppedSnapshots": 0,
+        "transports": 1
+      },
+      {
+        "name": "Nova Touch",
+        "sentInputs": 183,
+        "thrustInputs": 175,
+        "receivedSnapshots": 731,
+        "droppedSnapshots": 104,
+        "transports": 3
+      }
+    ]
+  },
+  "fourPlayer": {
+    "id": "06fe4582-c4b0-447d-a2c0-336620a54a6c",
+    "room": "KP9LY5",
+    "seed": 157,
+    "ranking": [
+      {
+        "place": 1,
+        "seat": 2,
+        "name": "Vega Three",
+        "finishMs": 34276,
+        "dodges": 26,
+        "hits": 1,
+        "boosts": 5
+      },
+      {
+        "place": 2,
+        "seat": 0,
+        "name": "Atlas One",
+        "finishMs": 37048,
+        "dodges": 10,
+        "hits": 15,
+        "boosts": 0
+      },
+      {
+        "place": 3,
+        "seat": 3,
+        "name": "Orion Four",
+        "finishMs": 37444,
+        "dodges": 19,
+        "hits": 17,
+        "boosts": 1
+      },
+      {
+        "place": 4,
+        "seat": 1,
+        "name": "Lyra Two",
+        "finishMs": 37840,
+        "dodges": 15,
+        "hits": 19,
+        "boosts": 0
+      }
+    ],
+    "frames": [
+      {
+        "frames": 411,
+        "fps": 100,
+        "p95FrameIntervalMs": 11,
+        "p95FrameCallbackMs": 0.5
+      },
+      {
+        "frames": 411,
+        "fps": 100,
+        "p95FrameIntervalMs": 11,
+        "p95FrameCallbackMs": 0.4
+      },
+      {
+        "frames": 411,
+        "fps": 100,
+        "p95FrameIntervalMs": 11,
+        "p95FrameCallbackMs": 0.5
+      },
+      {
+        "frames": 411,
+        "fps": 100,
+        "p95FrameIntervalMs": 11,
+        "p95FrameCallbackMs": 0.4
+      }
+    ],
+    "rematch": false,
+    "suspendedAndReconnected": false,
+    "simultaneousTouchBoost": false,
+    "wire": [
+      {
+        "name": "Atlas One",
+        "sentInputs": 201,
+        "thrustInputs": 200,
+        "receivedSnapshots": 757,
+        "droppedSnapshots": 0,
+        "transports": 1
+      },
+      {
+        "name": "Lyra Two",
+        "sentInputs": 204,
+        "thrustInputs": 203,
+        "receivedSnapshots": 757,
+        "droppedSnapshots": 0,
+        "transports": 1
+      },
+      {
+        "name": "Vega Three",
+        "sentInputs": 185,
+        "thrustInputs": 184,
+        "receivedSnapshots": 757,
+        "droppedSnapshots": 0,
+        "transports": 1
+      },
+      {
+        "name": "Orion Four",
+        "sentInputs": 202,
+        "thrustInputs": 201,
+        "receivedSnapshots": 757,
+        "droppedSnapshots": 0,
+        "transports": 1
+      }
+    ]
+  }
+}

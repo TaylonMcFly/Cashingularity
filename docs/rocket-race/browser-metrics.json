@@ -1,0 +1,106 @@
+{
+  "browser": "158.0.8127.36",
+  "viewportChecks": [
+    {
+      "width": 375,
+      "theme": "light"
+    },
+    {
+      "width": 375,
+      "theme": "dark"
+    },
+    {
+      "width": 390,
+      "theme": "light"
+    },
+    {
+      "width": 390,
+      "theme": "dark"
+    },
+    {
+      "width": 768,
+      "theme": "light"
+    },
+    {
+      "width": 768,
+      "theme": "dark"
+    },
+    {
+      "width": 1280,
+      "theme": "light"
+    },
+    {
+      "width": 1280,
+      "theme": "dark"
+    },
+    {
+      "width": 1920,
+      "theme": "light"
+    },
+    {
+      "width": 1920,
+      "theme": "dark"
+    }
+  ],
+  "mobileStandard": {
+    "samples": 598,
+    "fps": 100,
+    "medianFrameMs": 10,
+    "p95FrameMs": 10.8,
+    "worstFrameMs": 11.5,
+    "p95WorkMs": 0.3,
+    "finishMs": 33345,
+    "dodges": 30,
+    "points": 3640
+  },
+  "desktopStandard": {
+    "samples": 511,
+    "fps": 100,
+    "medianFrameMs": 10,
+    "p95FrameMs": 10.8,
+    "worstFrameMs": 11.2,
+    "p95WorkMs": 0.4,
+    "verifiedElapsedMs": 35083,
+    "place": 4,
+    "points": 470
+  },
+  "mobileLow": {
+    "samples": 501,
+    "fps": 100.01,
+    "medianFrameMs": 10,
+    "p95FrameMs": 10.8,
+    "worstFrameMs": 11.2,
+    "p95WorkMs": 1.4,
+    "cpuThrottle": 4,
+    "before": {
+      "heapKiB": 6754,
+      "nodes": 759,
+      "jsListeners": 244,
+      "listenerCounts": {
+        "keyup": 0,
+        "blur": 0,
+        "visibilitychange": 1
+      }
+    },
+    "afterEight": {
+      "heapKiB": 7434,
+      "nodes": 759,
+      "jsListeners": 244,
+      "listenerCounts": {
+        "keyup": 0,
+        "blur": 0,
+        "visibilitychange": 1
+      }
+    },
+    "after": {
+      "heapKiB": 7558,
+      "nodes": 759,
+      "jsListeners": 244,
+      "listenerCounts": {
+        "keyup": 0,
+        "blur": 0,
+        "visibilitychange": 1
+      }
+    }
+  }
+}

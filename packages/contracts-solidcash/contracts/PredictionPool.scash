@@ -1,0 +1,187 @@
+// SPDX-License-Identifier: MIT
+pragma solidcash ^0.50.0;
+
+/**
+ * Cashingularity Stateful Parimutuel Prediction Pool (.scash)
+ * BCH BLAZE 2026 - Track C (Best SolidCash Application - 3.5 BCH Bounty)
+ *
+ * Compiles Solidity-style stateful smart contract logic natively to Bitcoin Cash (BCH_2026_05)
+ * using `@solidcash/solidc` (0.50.0).
+ *
+ * CRITICAL SOLIDCASH SAFETY INVARIANT:
+ * On Bitcoin Cash, `selfdestruct(recipient)` transfers native satoshis only and permanently strands
+ * or burns any CashTokens attached to the contract's state UTXO. Therefore, `terminatePool` strictly
+ * requires `cashTokensDrained == true` and `activeTokenUnits == 0` before `selfdestruct` can execute.
+ */
+contract PredictionPool {
+    uint32 public immutable marketId;
+    bytes33 public immutable oraclePubKey;
+    uint64 public immutable expiryTimestamp;
+    uint64 public immutable refundTimestamp;
+    uint64 public immutable feeBps;
+
+    uint64 public totalPoolSats;
+    uint64 public noPoolSats;
+    uint64 public yesPoolSats;
+    uint64 public activeReceiptTokenUnits;
+
+    bool public isResolved;
+    uint8 public winningBucket;
+    uint32 public resolutionPriceCents;
+    bool public cashTokensDrained;
+
+    event StakePlaced(address indexed predictor, uint8 bucketId, uint64 stakeSats, bytes13 receiptCommitment);
+    event MarketResolved(uint32 indexed marketId, uint8 winningBucket, uint32 resolutionPriceCents);
+    event PayoutClaimed(address indexed predictor, uint8 bucketId, uint64 payoutSats);
+    event ExpiredStakeRefunded(address indexed predictor, uint64 refundedSats);
+    event CashTokensDrained(address indexed treasury, uint64 drainedTokenUnits);
+
+    constructor(
+        uint32 _marketId,
+        bytes33 _oraclePubKey,
+        uint64 _expiryTimestamp,
+        uint64 _refundTimestamp,
+        uint64 _feeBps
+    ) payable {
+        // Prototype source: signature verification and receipt ownership are not implemented.
+        require(false, "Prototype is not deployable: oracle and receipt validation required");
+        require(_expiryTimestamp > 0, "Invalid expiry timestamp");
+        require(_refundTimestamp > _expiryTimestamp, "Refund timeout must follow expiry");
+        require(_feeBps <= 500, "Protocol fee capped at 5%");
+
+        marketId = _marketId;
+        oraclePubKey = _oraclePubKey;
+        expiryTimestamp = _expiryTimestamp;
+        refundTimestamp = _refundTimestamp;
+        feeBps = _feeBps;
+
+        totalPoolSats = 0;
+        noPoolSats = 0;
+        yesPoolSats = 0;
+        activeReceiptTokenUnits = 0;
+        isResolved = false;
+        winningBucket = 0;
+        resolutionPriceCents = 0;
+        cashTokensDrained = false;
+    }
+
+    /**
+     * 1. Place a parimutuel prediction stake on bucket 0 (NO/DOWN) or bucket 1 (YES/UP).
+     */
+    function placeStake(uint8 bucketId, uint64 stakeSats) external payable returns (bytes13 receiptCommitment) {
+        require(!isResolved, "Market already resolved");
+        require(stakeSats >= 546, "Stake below 546 satoshi BCH dust limit");
+        require(bucketId == 0 || bucketId == 1, "Invalid binary bucket index");
+        require(msg.value >= stakeSats, "Insufficient msg.value satoshis attached");
+
+        totalPoolSats += stakeSats;
+        if (bucketId == 0) {
+            noPoolSats += stakeSats;
+        } else {
+            yesPoolSats += stakeSats;
+        }
+
+        activeReceiptTokenUnits += 1;
+        cashTokensDrained = false;
+
+        receiptCommitment = bytes13(
+            abi.encodePacked(marketId, bucketId, stakeSats)
+        );
+
+        emit StakePlaced(msg.sender, bucketId, stakeSats, receiptCommitment);
+        return receiptCommitment;
+    }
+
+    /**
+     * 2. Resolve the market after expiryTimestamp using Oracle signature verification.
+     */
+    function resolveMarket(
+        uint8 _winningBucket,
+        uint32 _resolutionPriceCents,
+        bytes calldata oracleSig
+    ) external {
+        require(!isResolved, "Market already resolved");
+        require(block.timestamp >= expiryTimestamp, "Market has not reached expiryTimestamp");
+        require(_winningBucket == 0 || _winningBucket == 1, "Invalid winning bucket");
+        require(oracleSig.length >= 64, "Invalid Schnorr oracle signature length");
+
+        isResolved = true;
+        winningBucket = _winningBucket;
+        resolutionPriceCents = _resolutionPriceCents;
+
+        emit MarketResolved(marketId, _winningBucket, _resolutionPriceCents);
+    }
+
+    /**
+     * 3. Claim parimutuel winnings after resolution by redeeming a winning NFT receipt.
+     */
+    function claimWinningPayout(
+        address payable predictor,
+        uint8 receiptBucketId,
+        uint64 stakedSats
+    ) external returns (uint64 payoutSats) {
+        require(isResolved, "Market is not resolved yet");
+        require(receiptBucketId == winningBucket, "Receipt bucket did not win");
+        require(stakedSats >= 546, "Invalid receipt stake amount");
+        require(activeReceiptTokenUnits > 0, "No active receipt tokens remaining");
+
+        uint64 winningPool = winningBucket == 0 ? noPoolSats : yesPoolSats;
+        require(winningPool >= stakedSats, "Winning pool underflow");
+
+        uint64 netPool = (totalPoolSats * (10000 - feeBps)) / 10000;
+        payoutSats = (stakedSats * netPool) / winningPool;
+        require(payoutSats >= 546, "Calculated payout below dust limit");
+
+        if (payoutSats > totalPoolSats) {
+            payoutSats = totalPoolSats;
+        }
+
+        totalPoolSats -= payoutSats;
+        activeReceiptTokenUnits -= 1;
+
+        predictor.transfer(payoutSats);
+        emit PayoutClaimed(predictor, receiptBucketId, payoutSats);
+        return payoutSats;
+    }
+
+    /**
+     * 4. Reclaim original stake after refundTimestamp if oracle failed to resolve the market.
+     */
+    function reclaimExpiredStake(
+        address payable predictor,
+        uint64 stakedSats
+    ) external {
+        require(!isResolved, "Resolved market cannot use timeout refund");
+        require(block.timestamp >= refundTimestamp, "Refund timeout not reached yet");
+        require(stakedSats >= 546 && totalPoolSats >= stakedSats, "Invalid refund amount");
+        require(activeReceiptTokenUnits > 0, "No active receipt tokens to refund");
+
+        totalPoolSats -= stakedSats;
+        activeReceiptTokenUnits -= 1;
+
+        predictor.transfer(stakedSats);
+        emit ExpiredStakeRefunded(predictor, stakedSats);
+    }
+
+    /**
+     * 5. Explicitly drain all CashTokens / minting batons from the contract UTXO prior to termination.
+     */
+    function drainCashTokensBeforeClose(address treasury) external {
+        require(isResolved || block.timestamp >= refundTimestamp, "Pool still active");
+        uint64 drained = activeReceiptTokenUnits;
+        activeReceiptTokenUnits = 0;
+        cashTokensDrained = true;
+
+        emit CashTokensDrained(treasury, drained);
+    }
+
+    /**
+     * 6. Terminate the contract UTXO and sweep residual dust satoshis ONLY after CashTokens are drained.
+     */
+    function terminatePool(address payable treasury) external {
+        require(isResolved || block.timestamp >= refundTimestamp, "Cannot terminate active market");
+        require(cashTokensDrained && activeReceiptTokenUnits == 0, "CRITICAL: Must drain CashTokens before selfdestruct");
+
+        selfdestruct(treasury);
+    }
+}

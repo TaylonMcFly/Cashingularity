@@ -1,0 +1,34 @@
+{
+  "name": "cashingularity-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cashingularity: AI-Assisted BCH Wallet, Rabby-Style UTXO Inspector & Configurable Parimutuel Prediction Market (BCH BLAZE 2026)",
+  "workspaces": [
+    "packages/shared",
+    "packages/backend",
+    "packages/frontend",
+    "packages/contracts-cashscript"
+  ],
+  "scripts": {
+    "build:shared": "npm --workspace=@cashingularity/shared run build",
+    "test:shared": "npm --workspace=@cashingularity/shared run test",
+    "build:cashscript": "npm --workspace=@cashingularity/contracts-cashscript run build",
+    "test:cashscript": "npm --workspace=@cashingularity/contracts-cashscript run test",
+    "build:xo": "npm --prefix packages/contracts-xo run build",
+    "test:xo": "npm --prefix packages/contracts-xo run test",
+    "e2e:xo": "npm --prefix packages/contracts-xo run e2e:chipnet",
+    "build:solidcash": "npm --prefix packages/contracts-solidcash run build",
+    "test:solidcash": "npm --prefix packages/contracts-solidcash run test",
+    "build:backend": "npm --workspace=@cashingularity/backend run build",
+    "test:backend": "npm --workspace=@cashingularity/backend run test",
+    "build:frontend": "npm --workspace=@cashingularity/frontend run build",
+    "test:frontend": "npm --workspace=@cashingularity/frontend run test",
+    "build": "npm run build:shared && npm run build:cashscript && npm run build:xo && npm run build:solidcash && npm run build:backend && npm run build:frontend",
+    "test": "npm run test:shared && npm run test:cashscript && npm run test:xo && npm run test:solidcash && npm run test:backend && npm run test:frontend",
+    "start": "node packages/backend/dist/index.js",
+    "dev": "npm run build:frontend && npm run build:backend && node packages/backend/dist/index.js"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

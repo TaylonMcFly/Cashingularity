@@ -1,0 +1,28 @@
+[Unit]
+Description=Cashingularity wallet, markets and Arcade
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=cashingularity
+Group=cashingularity
+WorkingDirectory=/opt/cashingularity/current
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/cashingularity/cashingularity.env
+ExecStart=/usr/bin/node packages/backend/dist/index.js
+StateDirectory=cashingularity
+StateDirectoryMode=0700
+UMask=0077
+Restart=on-failure
+RestartSec=3s
+TimeoutStopSec=20s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

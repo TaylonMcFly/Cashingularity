@@ -1,0 +1,55 @@
+pragma cashscript ^0.10.0;
+
+/**
+ * Cashingularity Pull-Based Reward Claim Covenant (FoldingCash FLDCH / Epoch Rewards)
+ * Tracks claimed epochs directly on-chain inside the user's mutable CashTokens NFT commitment
+ * bytes ([contributorPkh(20B) | lastClaimedEpoch(4B) | totalClaimedSats(8B)]) to prevent double-claims.
+ */
+contract PullRewardClaim(
+    pubkey distributorOraclePk,
+    bytes32 badgeCategoryId,
+    int rewardPerEpochSats
+) {
+    function claimEpochReward(
+        pubkey contributorPk,
+        sig contributorSig,
+        datasig oracleApprovalSig,
+        int currentEpoch
+    ) {
+        require(checkSig(contributorSig, contributorPk));
+        bytes20 contributorPkh = hash160(contributorPk);
+
+        // Input 0 is the reward vault covenant; Input 1 is the contributor's mutable NFT badge
+        require(this.activeInputIndex == 0);
+        require(tx.inputs[1].tokenCategory == badgeCategoryId + 0x01);
+
+        // Parse 32-byte NFT commitment: [contributorPkh(20B) | lastClaimedEpoch(4B) | totalClaimedSats(8B)]
+        bytes commitment = tx.inputs[1].nftCommitment;
+        bytes20 badgeOwnerPkh, bytes tail = commitment.split(20);
+        bytes4 lastEpochBytes, bytes8 totalClaimedBytes = tail.split(4);
+        require(badgeOwnerPkh == contributorPkh);
+
+        int lastEpoch = int(lastEpochBytes);
+        require(currentEpoch > lastEpoch);
+
+        // Verify oracle authorization for (contributorPkh || bytes4(currentEpoch))
+        bytes authPayload = contributorPkh + bytes4(currentEpoch);
+        require(checkDataSig(oracleApprovalSig, authPayload, distributorOraclePk));
+
+        int epochsDelta = currentEpoch - lastEpoch;
+        int claimAmountSats = epochsDelta * rewardPerEpochSats;
+        require(claimAmountSats >= 546);
+
+        // Output 0 continues the reward pool covenant with remaining balance
+        require(tx.outputs[0].lockingBytecode == tx.inputs[0].lockingBytecode);
+        require(tx.outputs[0].value >= tx.inputs[0].value - claimAmountSats);
+
+        // Output 1 returns the updated mutable NFT badge + reward satoshis to the contributor
+        int updatedTotalClaimed = int(totalClaimedBytes) + claimAmountSats;
+        bytes updatedCommitment = contributorPkh + bytes4(currentEpoch) + bytes8(updatedTotalClaimed);
+        require(tx.outputs[1].lockingBytecode == tx.inputs[1].lockingBytecode);
+        require(tx.outputs[1].tokenCategory == tx.inputs[1].tokenCategory);
+        require(tx.outputs[1].nftCommitment == updatedCommitment);
+        require(tx.outputs[1].value >= tx.inputs[1].value + claimAmountSats);
+    }
+}

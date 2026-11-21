@@ -1,0 +1,188 @@
+pragma cashscript ^0.10.0;
+
+// Testnet validation only. The round starts with a single minting NFT from a verified genesis.
+// Baton commitment: phase (1B), first (8B LE), second (8B LE).
+// Open (00) and refund (03) track DOWN and UP principal. Resolved (01/02) tracks winning
+// principal remaining and the canonical closing price. Receipts keep the existing 13B BE format.
+contract PredictionPool(
+    pubkey oraclePk,
+    bytes32 category,
+    bytes4 marketId,
+    int strikePriceCents,
+    int expiry,
+    int refundTime,
+    bytes20 reservePkh
+) {
+    function placeStake(bytes1 bucket, int stake, datasig admission) {
+        require(this.activeInputIndex == 0);
+        require(tx.inputs.length == 2);
+        require(tx.outputs.length == 2 || tx.outputs.length == 3);
+        require(tx.inputs[0].tokenCategory == category + 0x02);
+        require(tx.inputs[0].tokenAmount == 0);
+        require(tx.inputs[1].tokenCategory == 0x);
+        require(tx.locktime < expiry);
+        require(bucket == 0x00 || bucket == 0x01);
+        require(stake >= 546);
+        require(stake <= 2000000000);
+
+        bytes phase, bytes accounting = tx.inputs[0].nftCommitment.split(1);
+        require(phase == 0x00);
+        require(accounting.length == 16);
+        bytes downBytes, bytes upBytes = accounting.split(8);
+        int down = int(downBytes);
+        int up = int(upBytes);
+        require(down >= 0 && up >= 0);
+        require(down + up + stake <= 2000000000);
+        require(tx.inputs[0].value == 1500 + down + up);
+
+        bytes owner = tx.inputs[1].lockingBytecode;
+        require(owner.length == 25);
+        require(owner.split(3)[0] == 0x76a914 && owner.split(23)[1] == 0x88ac);
+        bytes receipt = marketId + bucket + bytes8(stake).reverse();
+        bytes order = 0x4353475301 + tx.inputs[0].lockingBytecode
+            + tx.inputs[0].outpointTransactionHash + bytes4(tx.inputs[0].outpointIndex)
+            + tx.inputs[1].outpointTransactionHash + bytes4(tx.inputs[1].outpointIndex)
+            + receipt + owner;
+        require(checkDataSig(admission, order, oraclePk));
+
+        if (bucket == 0x00) { down = down + stake; }
+        else { up = up + stake; }
+        require(tx.outputs[0].lockingBytecode == tx.inputs[0].lockingBytecode);
+        require(tx.outputs[0].tokenCategory == category + 0x02);
+        require(tx.outputs[0].tokenAmount == 0);
+        require(tx.outputs[0].nftCommitment == 0x00 + bytes8(down) + bytes8(up));
+        require(tx.outputs[0].value == 1500 + down + up);
+        require(tx.outputs[1].tokenCategory == category);
+        require(tx.outputs[1].tokenAmount == 0);
+        require(tx.outputs[1].nftCommitment == receipt);
+        require(tx.outputs[1].value >= 2000);
+        require(tx.outputs[1].lockingBytecode == owner);
+        if (tx.outputs.length == 3) {
+            require(tx.outputs[2].tokenCategory == 0x);
+            require(tx.outputs[2].lockingBytecode == owner);
+        }
+    }
+
+    function claimRoundPayout(datasig oracleSig, int resolvedPriceCents) {
+        require(this.activeInputIndex == 0);
+        require(tx.inputs.length == 2 && tx.outputs.length == 2);
+        require(tx.time >= expiry);
+        require(resolvedPriceCents > 0 && resolvedPriceCents <= 2000000000);
+        require(tx.inputs[0].tokenCategory == category + 0x02);
+        require(tx.inputs[0].tokenAmount == 0);
+        require(tx.inputs[1].tokenCategory == category);
+        require(tx.inputs[1].tokenAmount == 0);
+        bytes result = 0x4353475201 + tx.inputs[0].lockingBytecode + bytes8(resolvedPriceCents);
+        require(checkDataSig(oracleSig, result, oraclePk));
+
+        bytes commitment = tx.inputs[1].nftCommitment;
+        require(commitment.length == 13);
+        bytes receiptMarket, bytes tail = commitment.split(4);
+        bytes bucket, bytes stakeBytes = tail.split(1);
+        require(receiptMarket == marketId);
+        int stake = int(stakeBytes.reverse());
+        require(stake >= 546);
+        bytes1 winner = 0x01;
+        if (resolvedPriceCents < strikePriceCents) { winner = 0x00; }
+        require(bucket == winner);
+
+        bytes phase, bytes accounting = tx.inputs[0].nftCommitment.split(1);
+        require(accounting.length == 16);
+        bytes first, bytes second = accounting.split(8);
+        bytes1 resolvedPhase = 0x01;
+        if (winner == 0x01) { resolvedPhase = 0x02; }
+        int pot = tx.inputs[0].value - 1500;
+        require(pot > 0 && pot <= 2000000000);
+        int remaining = int(first);
+        if (phase == 0x00) {
+            int up = int(second);
+            require(remaining > 0 && up > 0 && remaining + up == pot);
+            if (winner == 0x01) { remaining = up; }
+        } else {
+            require(phase == resolvedPhase);
+            require(int(second) == resolvedPriceCents);
+        }
+        require(stake <= remaining && remaining <= pot);
+        int payout = stake * pot / remaining;
+        int nextPot = pot - payout;
+        int nextRemaining = remaining - stake;
+        require(tx.outputs[0].value == 1500 + nextPot);
+        require(tx.outputs[1].tokenCategory == 0x);
+        require(tx.outputs[1].lockingBytecode == tx.inputs[1].lockingBytecode);
+        require(tx.outputs[1].value >= payout);
+        if (nextRemaining == 0) {
+            require(nextPot == 0);
+            require(tx.outputs[0].tokenCategory == 0x);
+            require(tx.outputs[0].lockingBytecode == new LockingBytecodeP2PKH(reservePkh));
+        } else {
+            require(tx.outputs[0].tokenCategory == category + 0x02);
+            require(tx.outputs[0].tokenAmount == 0);
+            require(tx.outputs[0].lockingBytecode == tx.inputs[0].lockingBytecode);
+            require(tx.outputs[0].nftCommitment == resolvedPhase + bytes8(nextRemaining) + bytes8(resolvedPriceCents));
+        }
+    }
+
+    function reclaimExpiredStake() {
+        require(this.activeInputIndex == 0);
+        require(tx.time >= refundTime);
+        require(tx.inputs.length == 2 && tx.outputs.length == 2);
+        require(tx.inputs[0].tokenCategory == category + 0x02);
+        require(tx.inputs[0].tokenAmount == 0);
+
+        bytes phase, bytes accounting = tx.inputs[0].nftCommitment.split(1);
+        require(phase == 0x00 || phase == 0x03);
+        require(accounting.length == 16);
+        bytes downBytes, bytes upBytes = accounting.split(8);
+        int down = int(downBytes);
+        int up = int(upBytes);
+        require(down >= 0 && up >= 0 && down + up <= 2000000000);
+        require(tx.inputs[0].value == 1500 + down + up);
+        require(tx.inputs[1].tokenCategory == category);
+        require(tx.inputs[1].tokenAmount == 0);
+        bytes commitment = tx.inputs[1].nftCommitment;
+        require(commitment.length == 13);
+        bytes receiptMarket, bytes tail = commitment.split(4);
+        bytes bucket, bytes stakeBytes = tail.split(1);
+        require(receiptMarket == marketId);
+        int stake = int(stakeBytes.reverse());
+        require(stake >= 546);
+        if (bucket == 0x00) { down = down - stake; }
+        else {
+            require(bucket == 0x01);
+            up = up - stake;
+        }
+        require(down >= 0 && up >= 0);
+        require(tx.outputs[0].value == 1500 + down + up);
+        require(tx.outputs[1].lockingBytecode == tx.inputs[1].lockingBytecode);
+        require(tx.outputs[1].tokenCategory == 0x);
+        require(tx.outputs[1].value >= stake);
+        if (down + up == 0) {
+            require(tx.outputs[0].tokenCategory == 0x);
+            require(tx.outputs[0].lockingBytecode == new LockingBytecodeP2PKH(reservePkh));
+        } else {
+            require(tx.outputs[0].tokenCategory == category + 0x02);
+            require(tx.outputs[0].tokenAmount == 0);
+            require(tx.outputs[0].lockingBytecode == tx.inputs[0].lockingBytecode);
+            require(tx.outputs[0].nftCommitment == 0x03 + bytes8(down) + bytes8(up));
+        }
+    }
+
+    function recoverEmptyRoundReserve() {
+        require(this.activeInputIndex == 0);
+        require(tx.time >= refundTime);
+        require(tx.inputs.length == 2 && tx.outputs.length == 2);
+        require(tx.inputs[0].tokenCategory == category + 0x02);
+        require(tx.inputs[0].tokenAmount == 0);
+        require(tx.inputs[0].nftCommitment == 0x0000000000000000000000000000000000);
+        require(tx.inputs[0].value == 1500);
+        bytes owner = new LockingBytecodeP2PKH(reservePkh);
+        require(tx.inputs[1].lockingBytecode == owner);
+        require(tx.inputs[1].tokenCategory == 0x);
+        require(tx.outputs[0].lockingBytecode == owner);
+        require(tx.outputs[0].tokenCategory == 0x);
+        require(tx.outputs[0].value == 1500);
+        require(tx.outputs[1].lockingBytecode == owner);
+        require(tx.outputs[1].tokenCategory == 0x);
+        require(tx.outputs[1].value >= 546);
+    }
+}

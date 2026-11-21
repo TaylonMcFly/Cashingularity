@@ -1,0 +1,28 @@
+{
+  "name": "@cashingularity/contracts-xo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Isolated XO Stack (@xo-cash/engine + XOTemplate + JSON-RPC Sidecar Bridge) for Cashingularity (BCH BLAZE 2026)",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "e2e:chipnet": "tsc && node --experimental-strip-types scripts/test_chipnet_e2e.ts"
+  },
+  "dependencies": {
+    "@bitauth/libauth": "^3.1.0-next.8",
+    "@xo-cash/engine": "0.1.0-next.17612568780",
+    "@xo-cash/primitives": "0.0.3",
+    "@xo-cash/state": "0.0.5",
+    "@xo-cash/templates": "0.0.12",
+    "@xo-cash/types": "0.0.8",
+    "@xo-cash/utils": "0.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "node": "v24.19.0",
+  "gcForced": true,
+  "notes": "Real loopback sockets. CPU and memory measured in the separate Arcade Fastify server process. Traffic is WebSocket JSON payload only.",
+  "runs": [
+    {
+      "rooms": 1,
+      "clients": 4,
+      "durationSeconds": 12.01,
+      "controlHz": 29.97,
+      "serverCpuPctOneCore": 1.17,
+      "eventLoopP95Ms": 16.11,
+      "eventLoopMaxMs": 16.62,
+      "downKiBpsPerClient": 5.66,
+      "upKiBpsPerClient": 2.39,
+      "snapshotsPerClient": [
+        240,
+        240
+      ],
+      "heapMiBBefore": 10.78,
+      "heapMiBLive": 12.26,
+      "heapMiBAfterGc": 12.09,
+      "rssMiBLive": 68.19,
+      "remaining": {
+        "connections": 0,
+        "rooms": 0,
+        "pilots": 0
+      }
+    },
+    {
+      "rooms": 8,
+      "clients": 32,
+      "durationSeconds": 12.01,
+      "controlHz": 30.06,
+      "serverCpuPctOneCore": 6.76,
+      "eventLoopP95Ms": 16.13,
+      "eventLoopMaxMs": 16.66,
+      "downKiBpsPerClient": 5.68,
+      "upKiBpsPerClient": 2.4,
+      "snapshotsPerClient": [
+        240,
+        244
+      ],
+      "heapMiBBefore": 11.42,
+      "heapMiBLive": 12.85,
+      "heapMiBAfterGc": 11.99,
+      "rssMiBLive": 69.52,
+      "remaining": {
+        "connections": 0,
+        "rooms": 0,
+        "pilots": 0
+      }
+    }
+  ]
+}

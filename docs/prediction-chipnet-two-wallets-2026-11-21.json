@@ -1,0 +1,18 @@
+{
+  "network": "chipnet",
+  "genesisHash": "000000001dd410c49a788668ce26751718cc797474d3152a5fc073dd44fd9f7b",
+  "checkpoint": [
+    339169,
+    "0000000054a6b4cea78ee40540d927be564ae9937d6236f217bf0994c8c79fff"
+  ],
+  "peers": [
+    "chipnet.bch.ninja",
+    "chipnet.imaginary.cash"
+  ],
+  "artifact": "48a54d498a14c4d2fd451426a4d5d13605e7d7650d3a3f5e199b17294a620e1a",
+  "status": "Stopped",
+  "wallets": [],
+  "rounds": [],
+  "transactions": [],
+  "error": "Two user-selected Chipnet signing wallets timed out"
+}
