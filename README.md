@@ -4,7 +4,7 @@
 
 Created by **Taylon McFly** · [Source code](https://github.com/TaylonMcFly/Cashingularity) · [Deployment guide](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/DEPLOYMENT.md) · [On-chain evidence](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/ONCHAIN_PROOF.md)
 
-Cashingularity is an open-source, non-custodial Bitcoin Cash web application. It brings together BCH wallet tools, experimental prediction markets, and an independent multiplayer arcade in one interface. The project distinguishes **Mainnet wallet functionality**, **Chipnet contract experiments**, and **paper trading** so users can explore the technology without confusing simulations with real-money activity.
+*Cashingularity is an open-source, non-custodial Bitcoin Cash web application. It brings together BCH wallet tools, experimental prediction markets, and an independent multiplayer arcade in one interface. The project distinguishes **Mainnet wallet functionality**, **Chipnet contract experiments**, and **paper trading** so users can explore the technology without confusing simulations with real-money activity.*
 
 ![Cashingularity wallet dashboard](https://raw.githubusercontent.com/TaylonMcFly/Cashingularity/main/docs/ui-polish/after-wallet.png)
 
