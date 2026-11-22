@@ -634,6 +634,36 @@ html, body { overflow-x: clip; }
 .blaze-banner .header-links button { border-color:var(--border-subtle); }
 
 .wallet-home { display:grid; gap:18px; min-width:0; }
+.blaze-entry {
+  display:grid;
+  gap:10px;
+  min-width:0;
+  padding:clamp(16px,3vw,26px);
+  border:1px solid var(--border-subtle);
+  border-radius:16px;
+  background:var(--surface-card);
+}
+.blaze-entry h2 { margin:0; font-size:clamp(19px,2.4vw,28px); }
+.blaze-entry p { margin:0; color:var(--text-secondary); }
+.blaze-entry .blaze-entry-track { color:var(--accent-text); font-size:12px; font-weight:700; }
+.blaze-entry-actions, .blaze-entry-vote, .blaze-entry-copy {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+}
+.blaze-entry-actions .btn, .blaze-entry-copy .btn { min-height:44px; white-space:normal; }
+.blaze-entry-proof { display:inline-flex; align-items:center; gap:5px; color:var(--accent-text); font-weight:600; }
+.blaze-entry-vote {
+  justify-content:space-between;
+  margin-top:4px;
+  padding-top:12px;
+  border-top:1px solid var(--border-subtle);
+  font-size:13px;
+}
+.blaze-entry-vote > div { min-width:0; }
+.blaze-entry-vote span { color:var(--text-secondary); }
+.blaze-entry-vote code { display:block; margin-top:4px; overflow-wrap:anywhere; user-select:all; }
 .wallet-home-title { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }
 .wallet-home-title h1 { font-size:25px; margin:3px 0; }
 .wallet-home-title p { font-size:12px; color:var(--text-muted); }

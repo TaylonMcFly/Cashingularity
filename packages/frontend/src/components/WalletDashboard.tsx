@@ -5,6 +5,8 @@ import {
   ArrowUpRight,
   Clock3,
   AppWindow,
+  Copy,
+  FileText,
   Layers,
   RefreshCw,
   TrendingUp,
@@ -16,6 +18,10 @@ import { transactionExplorer, type WalletTransaction } from "../services/transac
 import type { PaperPosition } from '../services/paperTrading.js';
 import { WalletPortfolio } from './WalletPortfolio.js';
 export type { WalletTransaction } from "../services/transactionHistory.js";
+
+const widgetFactoryPresentation = 'https://github.com/TaylonMcFly/Cashingularity/blob/After/docs/blaze-submission/Cashingularity-Widget-Factory.pdf';
+const chipnetBatchReceipt = 'https://explorer.selene.cash/tx/a87122c361114ab59e6547fad6f6921fd948700f51ed80dc365ddeb5a542ec3f?network=chipnet';
+const emberVotingAddress = 'bitcoincash:zqx5xk9fpzgsrlk07t8e2asxx099d87txsgllfh3nd';
 
 interface Props {
   profile: ConnectedWalletProfile;
@@ -73,6 +79,7 @@ export const WalletDashboard: React.FC<Props> = ({
   const [virtualAmount, setVirtualAmount] = useState('');
   const [balanceError, setBalanceError] = useState('');
   const [historyExpanded, setHistoryExpanded] = useState(false);
+  const [copyStatus, setCopyStatus] = useState('');
   const watchOnly = !paper && profile.connectionType === 'WATCH_ONLY';
   const disconnected = !paper && !profile.isConnected;
   const syncing = !paper && (refreshing || profile.utxoSource === 'syncing');
@@ -142,8 +149,47 @@ export const WalletDashboard: React.FC<Props> = ({
     },
 
   ];
+
+  async function copyVotingAddress() {
+    try {
+      await navigator.clipboard.writeText(emberVotingAddress);
+      setCopyStatus('Address copied.');
+    } catch {
+      setCopyStatus('Select the address to copy it.');
+    }
+  }
+
   return (
     <div className="wallet-home">
+      <section className="blaze-entry" aria-labelledby="blaze-entry-title">
+        <p className="blaze-entry-track">BCH BLAZE 2026 · Mainnet Track</p>
+        <h2 id="blaze-entry-title">Non-custodial BCH batch payouts</h2>
+        <p>Pay multiple recipients in one transaction. Review each address, amount, and miner fee before approving.</p>
+        <div className="blaze-entry-actions">
+          <button type="button" className="btn btn-primary" onClick={onBatch}>
+            <Layers size={16} aria-hidden="true" /> Open Batch Pay
+          </button>
+          <a className="btn" href={widgetFactoryPresentation} target="_blank" rel="noopener noreferrer">
+            <FileText size={16} aria-hidden="true" /> Mainnet Track presentation (PDF)
+          </a>
+          <a className="blaze-entry-proof" href={chipnetBatchReceipt} target="_blank" rel="noopener noreferrer">
+            Chipnet batch receipt <ArrowUpRight size={14} aria-hidden="true" />
+          </a>
+        </div>
+        <div className="blaze-entry-vote">
+          <div>
+            <strong>Vote with EMBER2026</strong>
+            <span> · BCH Mainnet CashTokens</span>
+            <code>{emberVotingAddress}</code>
+          </div>
+          <div className="blaze-entry-copy">
+            <button type="button" className="btn" onClick={() => void copyVotingAddress()}>
+              <Copy size={14} aria-hidden="true" /> Copy voting address
+            </button>
+            <span role="status">{copyStatus}</span>
+          </div>
+        </div>
+      </section>
       <div className="wallet-home-title">
         <div>
           <h1>Welcome to your wallet</h1>

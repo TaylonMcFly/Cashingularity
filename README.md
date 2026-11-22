@@ -1,12 +1,16 @@
 # Cashingularity
 
-**Bitcoin Cash wallet, prediction-market lab, and online racing arcade**
+**Non-custodial Bitcoin Cash batch payouts**
 
 **BCH BLAZE 2026** · Created by **Taylon McFly**
 
-**[Live Demo](https://cashingularity.existencecode.com/)** · [Source Code](https://github.com/TaylonMcFly/Cashingularity) · [Deployment Guide](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/DEPLOYMENT.md) · [On-chain Evidence](https://github.com/TaylonMcFly/Cashingularity/blob/main/docs/ONCHAIN_PROOF.md)
+**[Live Demo](https://cashingularity.existencecode.com/)** · **[Mainnet Track presentation (PDF)](docs/blaze-submission/Cashingularity-Widget-Factory.pdf)** · [DoraHacks entry](https://dorahacks.io/buidl/51242) · [Deployment Guide](docs/DEPLOYMENT.md) · [On-chain Evidence](docs/ONCHAIN_PROOF.md)
 
-Cashingularity is an open-source, non-custodial Bitcoin Cash web application. It brings together BCH wallet tools, experimental prediction markets, and an independent multiplayer arcade in one interface. The project distinguishes **Mainnet wallet functionality**, **Chipnet contract experiments**, and **paper trading** so users can explore the technology without confusing simulations with real-money activity.
+Cashingularity helps teams pay contributors and bounty recipients in one Bitcoin Cash transaction. Open **Wallet → Batch Pay** to paste a list or import a spreadsheet, then review each recipient, amount, and miner fee before approving. **Wallet** also supports individual transfers. **Markets** offers BCH/USD charts and Paper Trading, and **Arcade** hosts Rocket Race.
+
+- **BCH Chipnet (testnet).** [Confirmed two-recipient batch](https://explorer.selene.cash/tx/a87122c361114ab59e6547fad6f6921fd948700f51ed80dc365ddeb5a542ec3f?network=chipnet) paid 120,000 and 50,000 sats with a 500-sat miner fee.
+- **BCH Mainnet (incoming).** [Confirmed 10,000-sat deposit](https://explorer.selene.cash/tx/72bced57c30dfe7659822b302e1fc5af7af2fbeec62b2f5ca93b96075d11dfcd?network=mainnet) to a test wallet. Outgoing Mainnet batch evidence remains pending.
+- **EMBER2026 community voting (BCH Mainnet CashTokens).** `bitcoincash:zqx5xk9fpzgsrlk07t8e2asxx099d87txsgllfh3nd`
 
 ![Cashingularity wallet dashboard](https://raw.githubusercontent.com/TaylonMcFly/Cashingularity/main/docs/ui-polish/after-wallet.png)
 
